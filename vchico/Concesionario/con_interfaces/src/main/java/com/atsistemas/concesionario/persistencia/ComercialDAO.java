@@ -16,7 +16,7 @@ public interface ComercialDAO {
     
     Comercial save(Comercial c);
     void delete(Comercial c);
-    Comercial findById(int id);
+    Comercial findOne(int id);
     Comercial findByCorreo(String correo);
     Comercial findByTelefono(String telefono);
     List<Comercial> findByNombre(String nombre);

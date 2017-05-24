@@ -5,6 +5,11 @@
  */
 package com.atsistemas.concesionario.configuracion;
 
+import com.atsistemas.concesionario.entidades.Vehiculo;
+import com.atsistemas.concesionario.persistencia.VehiculosDAO;
+import java.awt.Color;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 /**
  *
  * @author vchico
@@ -16,21 +21,17 @@ public class Aplicacion {
      */
     public static void main(String[] args) {
         
-//        AnnotationConfigApplicationContext contexto = new AnnotationConfigApplicationContext(ConfiguracionCore.class);
+        AnnotationConfigApplicationContext contexto = new AnnotationConfigApplicationContext(ConfiguracionCore.class);
         
-//        VehiculosDAO vdao = contexto.getBean(VehiculosDAO.class);
-//        
-//        Vehiculo v = vdao.findOne(2);
-//        
-//        v.setDescripcion("Nuevo Opel Corsa 2015");
-//        
-//        vdao.save(v);
-//        
-//        vdao.save(v);
-//        
-//        Vehiculo v2 = vdao.findOne(2);
-//        
-//        System.out.println(v2.getModelo());
+        VehiculosDAO vdao = contexto.getBean(VehiculosDAO.class);
+        
+        Vehiculo v = new Vehiculo(0, "corsa", Color.yellow, "225", 100000.0);
+        
+        vdao.save(v);
+        
+        Vehiculo v2 = vdao.findOne(1);
+        
+        System.out.println(v2.getModelo());
 //        
 //        Vehiculo v3 = vdao.findByColor(Color.gray).get(0);
 //        

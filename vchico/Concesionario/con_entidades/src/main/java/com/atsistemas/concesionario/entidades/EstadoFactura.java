@@ -10,9 +10,9 @@ package com.atsistemas.concesionario.entidades;
  * @author vchico
  */
 public enum EstadoFactura {
-    ENPROCESO("En proceso"),
-    ENTREGADO("Entregado"),
-    SINSTOCK("Sin stock");
+    COBRADA("Cobrada"),
+    NOCOBRADA("No cobrada"),
+    FALLIDO("Cobro fallido");
     
     EstadoFactura(String valor){}
 }

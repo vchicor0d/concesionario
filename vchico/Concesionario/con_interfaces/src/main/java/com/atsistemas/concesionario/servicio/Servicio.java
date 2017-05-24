@@ -7,7 +7,8 @@ package com.atsistemas.concesionario.servicio;
 
 import com.atsistemas.concesionario.entidades.Cliente;
 import com.atsistemas.concesionario.entidades.Comercial;
-import com.atsistemas.concesionario.entidades.EstadoPedido;
+import com.atsistemas.concesionario.entidades.EstadoFactura;
+import com.atsistemas.concesionario.entidades.Factura;
 import com.atsistemas.concesionario.entidades.Pedido;
 import com.atsistemas.concesionario.entidades.Vehiculo;
 import java.util.List;
@@ -31,12 +32,17 @@ public interface Servicio {
     Comercial actualizaComercial(Comercial c);
     
     Vehiculo altaVehiculo(Vehiculo v);
-    void bajaVehiculo(int id);
+    void bajaVehiculo(Vehiculo v);
     Vehiculo buscaVehiculo(int id);
     List<Vehiculo> buscaVehiculos();
     Vehiculo actualizaVehiculo(Vehiculo v);
     
     Pedido altaPedido(Pedido p);
-    EstadoPedido estadoPedido(Pedido p);
+    EstadoFactura estadoPedido(Pedido p);
+    Pedido recepcionPedido(Pedido p);
+    Factura generarFactura(Pedido p);
+    
+    Factura cobroFactura(Factura f);
+    Pedido entregarPedido(Factura f);
     
 }

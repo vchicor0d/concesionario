@@ -39,7 +39,6 @@ public class Factura implements Serializable {
     @Column(nullable = false)
     private Double total;
     
-    //@Column(nullable = false)
     @OneToOne(mappedBy = "factura")
     private Pedido pedido;
     

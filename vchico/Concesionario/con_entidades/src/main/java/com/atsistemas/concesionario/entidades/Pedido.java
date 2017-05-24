@@ -35,15 +35,12 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
-    //@Column(nullable = false)
     @ManyToOne
     private Cliente cliente;
     
-    //@Column(nullable = false)
     @ManyToOne
     private Comercial comercial;
     
-    //@Column(nullable = false)
     @OneToMany(mappedBy = "pedido")
     private List<Vehiculo> vehiculos;
     
@@ -54,8 +51,7 @@ public class Pedido implements Serializable {
     @Column(nullable = false)
     private EstadoPedido estado;
     
-    //@Column(nullable = false)
-    @OneToOne//(mappedBy = "pedido")
+    @OneToOne
     private Factura factura;
 
     public Pedido() {
