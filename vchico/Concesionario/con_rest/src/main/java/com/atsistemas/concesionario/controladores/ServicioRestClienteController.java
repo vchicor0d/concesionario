@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,14 +34,14 @@ public class ServicioRestClienteController {
     }
     
     @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Cliente> altaCliente(Cliente c){
+    public ResponseEntity<Cliente> altaCliente(@RequestBody Cliente c){
         Cliente nuevo = servicio.altaCliente(c);
         HttpStatus estado = nuevo!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(nuevo, estado);
     }
     
     @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public HttpStatus bajaCliente(Cliente c){
+    public HttpStatus bajaCliente(@RequestBody Cliente c){
         servicio.bajaCliente(c);
         return HttpStatus.ACCEPTED;
     }
@@ -60,7 +61,7 @@ public class ServicioRestClienteController {
     }
     
     @RequestMapping(path = "/actualizar", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Cliente> actualizarCliente(Cliente c){
+    public ResponseEntity<Cliente> actualizarCliente(@RequestBody Cliente c){
         Cliente act = servicio.actualizaCliente(c);
         HttpStatus estado = act!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(act, estado);

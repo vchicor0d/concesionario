@@ -17,6 +17,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  *
@@ -25,7 +26,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories("com.atsistemas.concesionario.persistencia.data")
-@ComponentScan({"com.atsistemas.concesionario.controladores", "com.atsistemas.concesionario.servicio"})
+@EnableWebMvc
+@ComponentScan({"com.atsistemas.concesionario.controladores", "com.atsistemas.concesionario.servicio.impl"})
 public class ConfiguracionCore {
     
     @Bean

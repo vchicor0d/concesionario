@@ -7,7 +7,6 @@ package com.atsistemas.concesionario.configuracion;
 
 import com.atsistemas.concesionario.entidades.Vehiculo;
 import com.atsistemas.concesionario.persistencia.VehiculosDAO;
-import java.awt.Color;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -25,13 +24,9 @@ public class Aplicacion {
         
         VehiculosDAO vdao = contexto.getBean(VehiculosDAO.class);
         
-        Vehiculo v = new Vehiculo(0, "corsa", Color.yellow, "225", 100000.0);
+        Vehiculo v = new Vehiculo(0, "corsa", "Amarillo", "225", 100000.0);
         
         vdao.save(v);
-        
-        Vehiculo v2 = vdao.findOne(1);
-        
-        System.out.println(v2.getModelo());
 //        
 //        Vehiculo v3 = vdao.findByColor(Color.gray).get(0);
 //        

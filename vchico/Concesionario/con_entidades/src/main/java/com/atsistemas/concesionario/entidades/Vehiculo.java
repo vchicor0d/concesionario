@@ -5,7 +5,6 @@
  */
 package com.atsistemas.concesionario.entidades;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Access;
@@ -37,7 +36,7 @@ public class Vehiculo implements Serializable {
     private String modelo;
     
     @Column(nullable = false)
-    private Color color;
+    private String color;
     
     @Column(nullable = false)
     private String motor;
@@ -48,7 +47,7 @@ public class Vehiculo implements Serializable {
     @ManyToOne
     private Pedido pedido;
 
-    public Vehiculo(int id, String modelo, Color color, String motor, double precio) {
+    public Vehiculo(int id, String modelo, String color, String motor, double precio) {
         this.id = id;
         this.modelo = modelo;
         this.color = color;
@@ -56,8 +55,7 @@ public class Vehiculo implements Serializable {
         this.precio = precio;
     }
 
-    public Vehiculo() {
-    }
+    public Vehiculo() {}
 
     public int getId() {
         return id;
@@ -83,11 +81,11 @@ public class Vehiculo implements Serializable {
         this.modelo = modelo;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 

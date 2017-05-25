@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,14 +34,14 @@ public class ServicioRestComercialController {
     }
     
     @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Comercial> altaComercial(Comercial c){
+    public ResponseEntity<Comercial> altaComercial(@RequestBody Comercial c){
         Comercial nuevo = servicio.altaComercial(c);
         HttpStatus estado = nuevo!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(nuevo, estado);
     }
     
     @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public HttpStatus bajaComercial(Comercial c){
+    public HttpStatus bajaComercial(@RequestBody Comercial c){
         servicio.bajaComercial(c);
         return HttpStatus.ACCEPTED;
     }
@@ -60,7 +61,7 @@ public class ServicioRestComercialController {
     }
     
     @RequestMapping(path = "/actualizar", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Comercial> actualizarComercial(Comercial c){
+    public ResponseEntity<Comercial> actualizarComercial(@RequestBody Comercial c){
         Comercial act = servicio.actualizaComercial(c);
         HttpStatus estado = act!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(act, estado);
