@@ -5,7 +5,7 @@
  */
 package com.atsistemas.concesionario.persistencia.data;
 
-import com.atsistemas.concesionario.entidades.EstadoFactura;
+import com.atsistemas.concesionario.entidades.EstadoPedido;
 import com.atsistemas.concesionario.entidades.Pedido;
 import com.atsistemas.concesionario.persistencia.PedidoDAO;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +20,6 @@ public interface DataPedidoDAO extends PedidoDAO, JpaRepository<Pedido, Integer>
     
     @Override
     @Query("select p.estado from Pedido p where p.id=:id")
-    EstadoFactura findEstadoById(@Param("id") int id);
+    EstadoPedido findEstadoById(@Param("id") int id);
     
 }

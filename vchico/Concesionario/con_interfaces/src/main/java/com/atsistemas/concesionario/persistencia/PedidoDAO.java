@@ -5,7 +5,7 @@
  */
 package com.atsistemas.concesionario.persistencia;
 
-import com.atsistemas.concesionario.entidades.EstadoFactura;
+import com.atsistemas.concesionario.entidades.EstadoPedido;
 import com.atsistemas.concesionario.entidades.Pedido;
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface PedidoDAO {
     
     Pedido save(Pedido p);
     Pedido findOne(int id);
-    EstadoFactura findEstadoById(int id);
+    EstadoPedido findEstadoById(int id);
     List<Pedido> findAll();
     
 }

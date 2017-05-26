@@ -11,7 +11,8 @@
         <module>con_persistencia</module>
         <module>con_rest</module>
         <module>con_servicio</module>
-    </modules>
+    <module>con_presentacion_spring</module>
+  </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

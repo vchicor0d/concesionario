@@ -7,7 +7,7 @@ package com.atsistemas.concesionario.servicio;
 
 import com.atsistemas.concesionario.entidades.Cliente;
 import com.atsistemas.concesionario.entidades.Comercial;
-import com.atsistemas.concesionario.entidades.EstadoFactura;
+import com.atsistemas.concesionario.entidades.EstadoPedido;
 import com.atsistemas.concesionario.entidades.Factura;
 import com.atsistemas.concesionario.entidades.Pedido;
 import com.atsistemas.concesionario.entidades.Vehiculo;
@@ -38,11 +38,13 @@ public interface Servicio {
     Vehiculo actualizaVehiculo(Vehiculo v);
     
     Pedido altaPedido(Pedido p);
-    EstadoFactura estadoPedido(Pedido p);
+    EstadoPedido estadoPedido(int id);
+    Pedido buscaPedido(int id);
     Pedido recepcionPedido(Pedido p);
     Factura generarFactura(Pedido p);
     
     Factura cobroFactura(Factura f);
-    Pedido entregarPedido(Factura f);
+    Pedido entregarPedido(Pedido p);
+    Factura buscaFactura(int id);
     
 }

@@ -126,8 +126,13 @@ public class ServicioImpl implements Servicio {
     }
 
     @Override
-    public EstadoFactura estadoPedido(Pedido p) {
-        return pedidao.findEstadoById(p.getId());
+    public EstadoPedido estadoPedido(int id) {
+        return pedidao.findEstadoById(id);
+    }
+    
+    @Override
+    public Pedido buscaPedido(int id){
+        return pedidao.findOne(id);
     }
 
     @Override
@@ -143,6 +148,8 @@ public class ServicioImpl implements Servicio {
             total+=v.getPrecio();
         }
         Factura f = new Factura(0, new Date(System.currentTimeMillis()), total, p, EstadoFactura.NOCOBRADA);
+        p.setFactura(f);
+        pedidao.save(p);
         return factdao.save(f);
     }
 
@@ -153,13 +160,14 @@ public class ServicioImpl implements Servicio {
     }
 
     @Override
-    public Pedido entregarPedido(Factura f) {
-        Pedido p = f.getPedido();
+    public Pedido entregarPedido(Pedido p) {
         p.setEstado(EstadoPedido.ENTREGADO);
-        f.setPedido(p);
-        factdao.save(f);
-        p.setFactura(f);
         return pedidao.save(p);
+    }
+
+    @Override
+    public Factura buscaFactura(int id) {
+        return factdao.findOne(id);
     }
     
 }
