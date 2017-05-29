@@ -23,28 +23,28 @@ import javax.persistence.Table;
  *
  * @author vchico
  */
-@Entity
-@Table(schema="Concesionario", name="Clientes")
-@Access(AccessType.FIELD)
+@Entity //Marcamos como entidad de persistencia
+@Table(schema="Concesionario", name="Clientes") //Le indicamos el esquema y el nombre de la tabla (Si fueran diferentes al nombre)
+@Access(AccessType.FIELD) //Acceso a través de los métodos getter y setter, por defecto aplica directamente a la propiedad de la clase.
 public class Cliente implements Serializable {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id //Identifica el campo como ID de la tabla
+    @GeneratedValue(strategy = GenerationType.AUTO) //Campo autogenerado
     private int id;
     
-    @Column(nullable = false)
+    @Column(nullable = false) //Columna not null en base de datos
     private String nombre;
     
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false) //Columna que debe ser única
     private String telefono;
     
     @Column(unique = true, nullable = false)
     private String correo;
     
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente") //Clientes es clave ajena de pedidos
     private List<Pedido> pedidos;
     
-    @ManyToOne
+    @ManyToOne //Comercial es clave ajena de clientes
     private Comercial comercial;
 
     public Cliente() {

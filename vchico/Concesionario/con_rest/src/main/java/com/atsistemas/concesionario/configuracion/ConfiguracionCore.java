@@ -24,21 +24,16 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @author vchico
  */
 @Configuration
-@EnableTransactionManagement
-@EnableJpaRepositories("com.atsistemas.concesionario.persistencia.data")
+@EnableTransactionManagement //Para la persistencia
+@EnableJpaRepositories("com.atsistemas.concesionario.persistencia.data") //Dónde están las interfaces de Data
 @EnableWebMvc
-@ComponentScan({"com.atsistemas.concesionario.controladores", "com.atsistemas.concesionario.servicio.impl"})
+@ComponentScan({"com.atsistemas.concesionario.controladores", "com.atsistemas.concesionario.servicio.impl"}) //Dónde están los Beans de spring
 public class ConfiguracionCore {
     
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
-    
-//    @Bean
-//    public HibernateTransactionManager transactionManager(SessionFactory sessionFactoryBean) {
-//        return new HibernateTransactionManager(sessionFactoryBean);
-//    }
 
     @Bean
     public DataSource dataSource() {
@@ -54,7 +49,7 @@ public class ConfiguracionCore {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         localContainerEntityManagerFactoryBean.setDataSource(ds);
-        localContainerEntityManagerFactoryBean.setPackagesToScan("com.atsistemas.concesionario.entidades");
+        localContainerEntityManagerFactoryBean.setPackagesToScan("com.atsistemas.concesionario.entidades"); //Dónde están las entidades de Hibernate
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         adapter.setGenerateDdl(true);
         adapter.setShowSql(true);
@@ -63,26 +58,8 @@ public class ConfiguracionCore {
         jpaProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.DerbyTenSevenDialect");
         jpaProperties.setProperty("hibernate.show.sql", "true");
         jpaProperties.setProperty("hibernate.format.sql", "true");
-        jpaProperties.setProperty("hibernate.hbm2ddl.auto", "create");
+        jpaProperties.setProperty("hibernate.hbm2ddl.auto", "update"); //Crea si no lo hay
         localContainerEntityManagerFactoryBean.setJpaProperties(jpaProperties);
         return localContainerEntityManagerFactoryBean;
     }
-    
-//    @Bean
-//    public LocalSessionFactoryBean entityManagerFactory(DataSource ds) {
-//        LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
-//        localSessionFactoryBean.setDataSource(ds);
-//        localSessionFactoryBean.setPackagesToScan("com.atsistemas.concesionario.entidades");
-//        HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-//        adapter.setGenerateDdl(true);
-//        adapter.setShowSql(true);
-//        localSessionFactoryBean.setJpaVendorAdapter(adapter);
-//        Properties hibernateProperties = new Properties();
-//        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.DerbyTenSevenDialect");
-//        hibernateProperties.setProperty("hibernate.show.sql", "true");
-//        hibernateProperties.setProperty("hibernate.format.sql", "true");
-//        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create");
-//        localSessionFactoryBean.setHibernateProperties(hibernateProperties);
-//        return localSessionFactoryBean;
-//    }
 }

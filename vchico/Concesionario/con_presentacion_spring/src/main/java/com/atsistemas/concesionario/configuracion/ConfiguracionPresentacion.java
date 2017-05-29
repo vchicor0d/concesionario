@@ -21,10 +21,12 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
  * @author vchico
  */
 @Configuration
-@EnableWebMvc
-@ComponentScan("com.atsistemas.concesionario.controladores")
-public class ConfiguracionPresentacion implements ApplicationContextAware{
+@EnableWebMvc //Activo las capacidades MVC
+@ComponentScan("com.atsistemas.concesionario.controladores") //Busco los controladores
+public class ConfiguracionPresentacion implements ApplicationContextAware{ 
     
+    //Métodos copiados para que funcione Thymeleaf
+    //TODO: Entender lo que hace cada uno
     private ApplicationContext applicationContext;
 
     @Bean

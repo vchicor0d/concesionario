@@ -19,7 +19,7 @@ import org.springframework.data.repository.query.Param;
 public interface DataPedidoDAO extends PedidoDAO, JpaRepository<Pedido, Integer> {
     
     @Override
-    @Query("select p.estado from Pedido p where p.id=:id")
+    @Query("select p.estado from Pedido p where p.id=:id") //Si no se puede indicar la query con el nombre del método, se puede poner la anotación y ponerlo con JPQL, o SQL si se marca native=true
     EstadoPedido findEstadoById(@Param("id") int id);
     
 }

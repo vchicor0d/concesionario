@@ -6,7 +6,6 @@
 package com.atsistemas.concesionario.controladores;
 
 import com.atsistemas.concesionario.entidades.Vehiculo;
-import com.atsistemas.concesionario.servicio.Servicio;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -17,6 +16,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
@@ -29,16 +29,9 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/vehiculo")
 public class VehiculoController {
 
-    private Servicio servicio;
-
-    @RequestMapping(path = "/alta", method = RequestMethod.GET)
-    public String alta(Model modelo) {
-        modelo.addAttribute("vehiculo", new Vehiculo());
-        return "altaVehiculo";
-    }
-
     @RequestMapping(path = "/alta", method = RequestMethod.POST)
     public String alta(@ModelAttribute @Valid Vehiculo vehiculo, Model modelo) {
+        //Copiado de StackOverflow, creo los headers para que envíe el vehículo en JSON
         RestTemplate restTemplate = new RestTemplate();
         List<HttpMessageConverter<?>> list = new ArrayList<>();
         list.add(new MappingJackson2HttpMessageConverter());
@@ -46,7 +39,49 @@ public class VehiculoController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         Vehiculo ve = restTemplate.postForObject("http://localhost:8080/con_rest/api/vehiculo/alta", vehiculo, Vehiculo.class, headers);
-        return "altaVehiculo";
+        return "redirect:lista";
+    }
+    
+    @RequestMapping(path="/lista")
+    public String lista(Model modelo){
+        RestTemplate restTemplate = new RestTemplate();
+        List<Vehiculo> lista = restTemplate.getForObject("http://localhost:8080/con_rest/api/vehiculo/lista", List.class);
+        //Hay que añadir al modelo las variables que usará la plantilla, la lista que itera en la tabla y el vehículo que usará para el alta y la modificación
+        modelo.addAttribute("lista", lista);
+        modelo.addAttribute("vehiculo", new Vehiculo());
+        return "vehiculo/vehiculos";
+    }
+    
+    @RequestMapping(path="/baja")
+    public String baja(@ModelAttribute @Valid Vehiculo vehiculo, Model modelo){
+        RestTemplate restTemplate = new RestTemplate();
+        List<HttpMessageConverter<?>> list = new ArrayList<>();
+        list.add(new MappingJackson2HttpMessageConverter());
+        restTemplate.setMessageConverters(list);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        restTemplate.put("http://localhost:8080/con_rest/api/vehiculo/baja", vehiculo, headers);
+        return "redirect:lista";
+    }
+    
+    @RequestMapping(path = "{id}")
+    public String detalle(@PathVariable int id, Model modelo){
+        RestTemplate restTemplate = new RestTemplate();
+        Vehiculo v = restTemplate.getForObject("http://localhost:8080/con_rest/api/vehiculo/"+id, Vehiculo.class);
+        modelo.addAttribute("vehiculo",v);
+        return "vehiculo/detalle";
+    }
+    
+    @RequestMapping(path = "/modifica")
+    public String modifica(@ModelAttribute @Valid Vehiculo vehiculo, Model modelo){
+        RestTemplate restTemplate = new RestTemplate();
+        List<HttpMessageConverter<?>> list = new ArrayList<>();
+        list.add(new MappingJackson2HttpMessageConverter());
+        restTemplate.setMessageConverters(list);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        restTemplate.postForObject("http://localhost:8080/con_rest/api/vehiculo/actualizar", vehiculo, Vehiculo.class, headers);
+        return "redirect:lista";
     }
 
 }

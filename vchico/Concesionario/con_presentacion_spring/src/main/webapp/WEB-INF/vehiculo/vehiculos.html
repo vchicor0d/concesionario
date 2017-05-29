@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Concesionario - Lista Vehículos</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    </head>
+    <body>
+        <div class = "w3-container w3-section">
+            <table class="w3-table-all w3-hoverable w3-card-4">
+                <thead>
+                    <tr class="w3-teal">
+                        <th>Modelo</th>
+                        <th>Motor</th>
+                        <th>Color</th>
+                        <th>Precio</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Itera la variable lista, cada objeto se llama ve -->
+                    <th:block th:each="ve : ${lista}">
+                        <tr>
+                            <!-- th:text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
+                                en th:onclick va el texto como cadena entre comillas simples y las variables fuera -->
+                            <td th:text="${ve.modelo}" th:onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
+                            <td th:text="${ve.motor}" th:onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
+                            <td th:text="${ve.color}" th:onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
+                            <td th:text="${ve.precio}" th:onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
+                            <td>
+                                <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" th:onclick="'document.getElementById(\'modifica-'+${ve.id}+'\').style.display = \'block\''">create</i>
+                                <form class="w3-left" method="post" th:object="${vehiculo}" action="baja">
+                                    <i class="material-icons w3-text-teal w3-hover-text-red w3-button" onclick="javascript:parentNode.submit()">delete</i>
+                                    <input type="hidden" name="id" th:value="${ve.id}"/>
+                                </form>
+                            </td>
+                        </tr>
+                        <!-- Ventana modal, por defecto invisible, en th:id uso como variable la id del vehículo para formar la id del div-->
+                        <div th:id="'modifica-'+${ve.id}" class = "w3-modal">
+                            <div class="w3-modal-content w3-padding-large w3-card-4">
+                                <form class="w3-container" method="POST" th:object="${vehiculo}" action="modifica">
+                                    <i class="material-icons w3-text-red w3-display-topright w3-button" th:onclick="'document.getElementById(\'modifica-'+${ve.id}+'\').style.display = \'none\''">clear</i>
+                                    <input type="hidden" name="id" th:value="${ve.id}"/>
+
+                                    <label class="w3-text-teal">Modelo</label>
+                                    <input class="w3-input" type="text" name="modelo" th:value="${ve.modelo}"/>
+
+                                    <label class="w3-text-teal">Motor</label>
+                                    <input class="w3-input" type="text" name="motor" th:value="${ve.motor}"/>
+
+                                    <label class="w3-text-teal">Color</label>
+                                    <input class="w3-input" type="text" name="color" th:value="${ve.color}"/>
+
+                                    <label class="w3-text-teal">Precio</label>
+                                    <input class="w3-input" type="number" name="precio" th:value="${ve.precio}"/>
+
+                                    <label class="w3-text-teal">Descripcion</label>
+                                    <textarea class="w3-input" name="descripcion" th:text="${ve.descripcion}"/>
+
+                                    <input type="submit" class="w3-btn w3-blue-grey" value="Modificar"/>
+                                </form>
+                            </div>
+                        </div>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+        <div class='w3-container w3-section'>
+            <div class="w3-display-container w3-section">
+                <button class="w3-btn w3-blue-grey w3-display-left" onclick="javascript:location.href = '../inicio'">Volver</button>
+                <i class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" th:onclick="'document.getElementById(\'registro\').style.display = \'block\''">add</i>
+            </div>
+        </div>
+        <div id="registro" class = "w3-modal">
+            <div class="w3-modal-content w3-padding-large w3-card-4">
+                <form class="w3-container" method="POST" th:object="${vehiculo}" action="alta">
+                    <i class="material-icons w3-text-red w3-display-topright w3-button" th:onclick="'document.getElementById(\'registro\').style.display = \'none\''">clear</i>
+
+                    <label class="w3-text-teal">Modelo</label>
+                    <input class="w3-input" type="text" th:field="*{modelo}"/>
+
+                    <label class="w3-text-teal">Motor</label>
+                    <input class="w3-input" type="text" th:field="*{motor}"/>
+
+                    <label class="w3-text-teal">Color</label>
+                    <input class="w3-input" type="text" th:field="*{color}"/>
+
+                    <label class="w3-text-teal">Precio</label>
+                    <input class="w3-input" type="number" th:field="*{precio}"/>
+
+                    <label class="w3-text-teal">Descripcion</label>
+                    <textarea class="w3-input" th:field="*{descripcion}"></textarea>
+
+                    <input type="submit" class="w3-btn w3-blue-grey" value="Añadir"/>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

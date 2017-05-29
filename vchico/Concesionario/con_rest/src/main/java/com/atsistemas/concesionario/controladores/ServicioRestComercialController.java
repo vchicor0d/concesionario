@@ -40,7 +40,7 @@ public class ServicioRestComercialController {
         return new ResponseEntity<>(nuevo, estado);
     }
     
-    @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public HttpStatus bajaComercial(@RequestBody Comercial c){
         servicio.bajaComercial(c);
         return HttpStatus.ACCEPTED;

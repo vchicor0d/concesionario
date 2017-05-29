@@ -40,19 +40,7 @@
         </dependency>
         <dependency>
             <groupId>com.atsistemas.concesionario</groupId>
-            <artifactId>con_interfaces</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.atsistemas.concesionario</groupId>
-            <artifactId>con_persistencia</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.atsistemas.concesionario</groupId>
-            <artifactId>con_servicio</artifactId>
+            <artifactId>con_entidades</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>

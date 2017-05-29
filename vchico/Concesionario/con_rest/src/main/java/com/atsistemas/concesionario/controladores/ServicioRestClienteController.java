@@ -40,7 +40,7 @@ public class ServicioRestClienteController {
         return new ResponseEntity<>(nuevo, estado);
     }
     
-    @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public HttpStatus bajaCliente(@RequestBody Cliente c){
         servicio.bajaCliente(c);
         return HttpStatus.ACCEPTED;

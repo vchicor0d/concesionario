@@ -15,5 +15,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface DataVehiculoDAO extends VehiculosDAO, JpaRepository<Vehiculo, Integer> {
     
+    //No hace falta indicar aquí los métodos ya que están puestos con la nomenclatura adecuada en la interfaz principal (VehiculosDAO)
     
 }

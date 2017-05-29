@@ -34,13 +34,13 @@ public class ServicioRestVehiculoController {
     }
     
     @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Vehiculo> altaVehiculo(@RequestBody Vehiculo v){
+    public ResponseEntity<Vehiculo> altaVehiculo(@RequestBody Vehiculo v){ //Hay que poner RequestBody para identificar que lo que viene es un vehículo
         Vehiculo nuevo = servicio.altaVehiculo(v);
         HttpStatus estado = nuevo!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(nuevo, estado);
     }
     
-    @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public HttpStatus bajaVehiculo(@RequestBody Vehiculo v){
         servicio.bajaVehiculo(v);
         return HttpStatus.ACCEPTED;
@@ -56,7 +56,7 @@ public class ServicioRestVehiculoController {
     @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<List<Vehiculo>> listarVehiculos(){
         List<Vehiculo> clientes = servicio.buscaVehiculos();
-        HttpStatus estado = clientes != null && clientes.size() > 0?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
+        HttpStatus estado = HttpStatus.OK;
         return new ResponseEntity<>(clientes,estado);
     }
     
