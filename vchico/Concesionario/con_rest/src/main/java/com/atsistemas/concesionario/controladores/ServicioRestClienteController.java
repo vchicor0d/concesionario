@@ -35,6 +35,9 @@ public class ServicioRestClienteController {
     
     @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Cliente> altaCliente(@RequestBody Cliente c){
+        if (c.getComercial().getId() == -1){
+            c.setComercial(null);
+        }
         Cliente nuevo = servicio.altaCliente(c);
         HttpStatus estado = nuevo!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(nuevo, estado);
@@ -56,12 +59,15 @@ public class ServicioRestClienteController {
     @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<List<Cliente>> listarClientes(){
         List<Cliente> clientes = servicio.buscaClientes();
-        HttpStatus estado = clientes != null && clientes.size() > 0?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
+        HttpStatus estado = clientes != null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(clientes,estado);
     }
     
     @RequestMapping(path = "/actualizar", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Cliente> actualizarCliente(@RequestBody Cliente c){
+        if (c.getComercial().getId() == -1){
+            c.setComercial(null);
+        }
         Cliente act = servicio.actualizaCliente(c);
         HttpStatus estado = act!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(act, estado);

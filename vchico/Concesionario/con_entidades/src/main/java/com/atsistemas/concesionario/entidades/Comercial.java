@@ -5,6 +5,7 @@
  */
 package com.atsistemas.concesionario.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +18,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -41,9 +44,13 @@ public class Comercial implements Serializable {
     private String telefono;
     
     @OneToMany(mappedBy = "comercial")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnoreProperties("comercial")
     private List<Cliente> clientes;
     
     @OneToMany(mappedBy = "comercial")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnoreProperties("comercial")
     private List<Pedido> pedidos;
 
     public Comercial() {

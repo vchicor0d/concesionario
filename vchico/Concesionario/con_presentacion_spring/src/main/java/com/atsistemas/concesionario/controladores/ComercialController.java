@@ -5,7 +5,7 @@
  */
 package com.atsistemas.concesionario.controladores;
 
-import com.atsistemas.concesionario.entidades.Vehiculo;
+import com.atsistemas.concesionario.entidades.Comercial;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -26,11 +26,11 @@ import org.springframework.web.client.RestTemplate;
  * @author vchico
  */
 @Controller
-@RequestMapping("/vehiculo")
-public class VehiculoController {
+@RequestMapping("/comercial")
+public class ComercialController {
 
     @RequestMapping(path = "/alta", method = RequestMethod.POST)
-    public String alta(@ModelAttribute @Valid Vehiculo vehiculo) {
+    public String alta(@ModelAttribute @Valid Comercial comercial) {
         //Copiado de StackOverflow, creo los headers para que envíe el vehículo en JSON
         RestTemplate restTemplate = new RestTemplate();
         List<HttpMessageConverter<?>> list = new ArrayList<>();
@@ -38,49 +38,49 @@ public class VehiculoController {
         restTemplate.setMessageConverters(list);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        Vehiculo ve = restTemplate.postForObject("http://localhost:8080/con_rest/api/vehiculo/alta", vehiculo, Vehiculo.class, headers);
+        restTemplate.postForObject("http://localhost:8080/con_rest/api/comercial/alta", comercial, Comercial.class, headers);
         return "redirect:lista";
     }
     
     @RequestMapping(path="/lista")
     public String lista(Model modelo){
         RestTemplate restTemplate = new RestTemplate();
-        List<Vehiculo> lista = restTemplate.getForObject("http://localhost:8080/con_rest/api/vehiculo/lista", List.class);
+        List<Comercial> lista = restTemplate.getForObject("http://localhost:8080/con_rest/api/comercial/lista", List.class);
         //Hay que añadir al modelo las variables que usará la plantilla, la lista que itera en la tabla y el vehículo que usará para el alta y la modificación
         modelo.addAttribute("lista", lista);
-        modelo.addAttribute("vehiculo", new Vehiculo());
-        return "vehiculo/vehiculos";
+        modelo.addAttribute("comercial", new Comercial());
+        return "comercial/comerciales";
     }
     
     @RequestMapping(path="/baja")
-    public String baja(@ModelAttribute @Valid Vehiculo vehiculo){
+    public String baja(@ModelAttribute @Valid Comercial comercial){
         RestTemplate restTemplate = new RestTemplate();
         List<HttpMessageConverter<?>> list = new ArrayList<>();
         list.add(new MappingJackson2HttpMessageConverter());
         restTemplate.setMessageConverters(list);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        restTemplate.put("http://localhost:8080/con_rest/api/vehiculo/baja", vehiculo, headers);
+        restTemplate.put("http://localhost:8080/con_rest/api/comercial/baja", comercial, headers);
         return "redirect:lista";
     }
     
     @RequestMapping(path = "{id}")
     public String detalle(@PathVariable int id, Model modelo){
         RestTemplate restTemplate = new RestTemplate();
-        Vehiculo v = restTemplate.getForObject("http://localhost:8080/con_rest/api/vehiculo/"+id, Vehiculo.class);
-        modelo.addAttribute("vehiculo",v);
-        return "vehiculo/detalle";
+        Comercial c = restTemplate.getForObject("http://localhost:8080/con_rest/api/comercial/"+id, Comercial.class);
+        modelo.addAttribute("comercial",c);
+        return "comercial/detalle";
     }
     
     @RequestMapping(path = "/modifica")
-    public String modifica(@ModelAttribute @Valid Vehiculo vehiculo){
+    public String modifica(@ModelAttribute @Valid Comercial comercial){
         RestTemplate restTemplate = new RestTemplate();
         List<HttpMessageConverter<?>> list = new ArrayList<>();
         list.add(new MappingJackson2HttpMessageConverter());
         restTemplate.setMessageConverters(list);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        restTemplate.postForObject("http://localhost:8080/con_rest/api/vehiculo/actualizar", vehiculo, Vehiculo.class, headers);
+        restTemplate.postForObject("http://localhost:8080/con_rest/api/comercial/actualizar", comercial, Comercial.class, headers);
         return "redirect:lista";
     }
 

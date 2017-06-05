@@ -50,21 +50,21 @@ and open the template in the editor.
                                     <input type="hidden" name="id" th:value="${ve.id}"/>
 
                                     <label class="w3-text-teal">Modelo</label>
-                                    <input class="w3-input" type="text" name="modelo" th:value="${ve.modelo}"/>
+                                    <input class="w3-input w3-animate-input" type="text" name="modelo" th:value="${ve.modelo}" style="width: 30%"/>
 
                                     <label class="w3-text-teal">Motor</label>
-                                    <input class="w3-input" type="text" name="motor" th:value="${ve.motor}"/>
+                                    <input class="w3-input w3-animate-input" type="text" name="motor" th:value="${ve.motor}" style="width: 30%"/>
 
                                     <label class="w3-text-teal">Color</label>
-                                    <input class="w3-input" type="text" name="color" th:value="${ve.color}"/>
+                                    <input class="w3-input w3-animate-input" type="text" name="color" th:value="${ve.color}" style="width: 30%"/>
 
                                     <label class="w3-text-teal">Precio</label>
-                                    <input class="w3-input" type="number" name="precio" th:value="${ve.precio}"/>
+                                    <input class="w3-input w3-animate-input" type="number" name="precio" th:value="${ve.precio}" style="width: 30%"/>
 
                                     <label class="w3-text-teal">Descripcion</label>
-                                    <textarea class="w3-input" name="descripcion" th:text="${ve.descripcion}"/>
+                                    <textarea class="w3-input w3-animate-input" name="descripcion" th:text="${ve.descripcion}" style="width: 30%"/>
 
-                                    <input type="submit" class="w3-btn w3-blue-grey" value="Modificar"/>
+                                    <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Modificar"/>
                                 </form>
                             </div>
                         </div>
@@ -84,21 +84,21 @@ and open the template in the editor.
                     <i class="material-icons w3-text-red w3-display-topright w3-button" th:onclick="'document.getElementById(\'registro\').style.display = \'none\''">clear</i>
 
                     <label class="w3-text-teal">Modelo</label>
-                    <input class="w3-input" type="text" th:field="*{modelo}"/>
+                    <input class="w3-input w3-animate-input" type="text" th:field="*{modelo}" style="width: 30%"/>
 
                     <label class="w3-text-teal">Motor</label>
-                    <input class="w3-input" type="text" th:field="*{motor}"/>
+                    <input class="w3-input w3-animate-input" type="text" th:field="*{motor}" style="width: 30%"/>
 
                     <label class="w3-text-teal">Color</label>
-                    <input class="w3-input" type="text" th:field="*{color}"/>
+                    <input class="w3-input w3-animate-input" type="text" th:field="*{color}" style="width: 30%"/>
 
                     <label class="w3-text-teal">Precio</label>
-                    <input class="w3-input" type="number" th:field="*{precio}"/>
+                    <input class="w3-input w3-animate-input" type="number" th:field="*{precio}" style="width: 30%"/>
 
                     <label class="w3-text-teal">Descripcion</label>
-                    <textarea class="w3-input" th:field="*{descripcion}"></textarea>
+                    <textarea class="w3-input w3-animate-input" th:field="*{descripcion}" style="width: 30%"></textarea>
 
-                    <input type="submit" class="w3-btn w3-blue-grey" value="Añadir"/>
+                    <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Añadir"/>
                 </form>
             </div>
         </div>

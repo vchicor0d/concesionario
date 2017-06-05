@@ -5,6 +5,7 @@
  */
 package com.atsistemas.concesionario.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -18,33 +19,38 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
  * @author vchico
  */
 @Entity //Marcamos como entidad de persistencia
-@Table(schema="Concesionario", name="Clientes") //Le indicamos el esquema y el nombre de la tabla (Si fueran diferentes al nombre)
+@Table(schema = "Concesionario", name = "Clientes") //Le indicamos el esquema y el nombre de la tabla (Si fueran diferentes al nombre)
 @Access(AccessType.FIELD) //Acceso a través de los métodos getter y setter, por defecto aplica directamente a la propiedad de la clase.
 public class Cliente implements Serializable {
-    
+
     @Id //Identifica el campo como ID de la tabla
     @GeneratedValue(strategy = GenerationType.AUTO) //Campo autogenerado
     private int id;
-    
+
     @Column(nullable = false) //Columna not null en base de datos
     private String nombre;
-    
+
     @Column(unique = true, nullable = false) //Columna que debe ser única
     private String telefono;
-    
+
     @Column(unique = true, nullable = false)
     private String correo;
-    
-    @OneToMany(mappedBy = "cliente") //Clientes es clave ajena de pedidos
+
+    @OneToMany(mappedBy = "cliente")
+    @LazyCollection(LazyCollectionOption.FALSE) //Clientes es clave ajena de pedidos, se recuperan inmediatamente
+    @JsonIgnoreProperties("cliente") //Ignora el objeto cliente de pedidos en la serialización
     private List<Pedido> pedidos;
-    
+
     @ManyToOne //Comercial es clave ajena de clientes
+    @JsonIgnoreProperties("clientes")
     private Comercial comercial;
 
     public Cliente() {
@@ -158,6 +164,4 @@ public class Cliente implements Serializable {
         return true;
     }
 
-    
-    
 }

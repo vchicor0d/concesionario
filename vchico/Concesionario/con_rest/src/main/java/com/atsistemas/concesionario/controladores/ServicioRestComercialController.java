@@ -8,6 +8,7 @@ package com.atsistemas.concesionario.controladores;
 import com.atsistemas.concesionario.entidades.Comercial;
 import com.atsistemas.concesionario.servicio.Servicio;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +34,7 @@ public class ServicioRestComercialController {
         this.servicio = servicio;
     }
     
+    @Transactional
     @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Comercial> altaComercial(@RequestBody Comercial c){
         Comercial nuevo = servicio.altaComercial(c);
@@ -40,12 +42,14 @@ public class ServicioRestComercialController {
         return new ResponseEntity<>(nuevo, estado);
     }
     
+    @Transactional
     @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public HttpStatus bajaComercial(@RequestBody Comercial c){
         servicio.bajaComercial(c);
         return HttpStatus.ACCEPTED;
     }
     
+    @Transactional
     @RequestMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<Comercial> buscarComercial(@PathVariable int id){
         Comercial c = servicio.buscaComercial(id);
@@ -53,13 +57,15 @@ public class ServicioRestComercialController {
         return new ResponseEntity<>(c,estado);
     }
     
+    @Transactional
     @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<List<Comercial>> listarComerciales(){
         List<Comercial> comercials = servicio.buscaComerciales();
-        HttpStatus estado = comercials != null && comercials.size() > 0?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
+        HttpStatus estado = comercials != null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(comercials,estado);
     }
     
+    @Transactional
     @RequestMapping(path = "/actualizar", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Comercial> actualizarComercial(@RequestBody Comercial c){
         Comercial act = servicio.actualizaComercial(c);

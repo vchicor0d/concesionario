@@ -5,6 +5,7 @@
  */
 package com.atsistemas.concesionario.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -36,12 +39,15 @@ public class Pedido implements Serializable {
     private int id;
     
     @ManyToOne
+    @JsonIgnoreProperties("pedidos")
     private Cliente cliente;
     
     @ManyToOne
+    @JsonIgnoreProperties("pedidos")
     private Comercial comercial;
     
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Vehiculo> vehiculos;
     
     @Column(nullable = false)
@@ -52,6 +58,7 @@ public class Pedido implements Serializable {
     private EstadoPedido estado;
     
     @OneToOne
+    @JsonIgnoreProperties("pedido")
     private Factura factura;
 
     public Pedido() {

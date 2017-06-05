@@ -56,7 +56,7 @@ public class ServicioRestVehiculoController {
     @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<List<Vehiculo>> listarVehiculos(){
         List<Vehiculo> clientes = servicio.buscaVehiculos();
-        HttpStatus estado = HttpStatus.OK;
+        HttpStatus estado = clientes != null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(clientes,estado);
     }
     

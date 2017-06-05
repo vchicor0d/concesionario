@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Concesionario - Lista Vehículos</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    </head>
+    <body>
+        <div class = "w3-container w3-section">
+            <table class="w3-table-all w3-card-4">
+                <tr>
+                    <th class="w3-teal">Nombre</th>
+                    <td th:text="${cliente.nombre}"/>
+                </tr>
+                <tr>
+                    <th class="w3-teal">Correo</th>
+                    <td th:text="${cliente.correo}"/>
+                </tr>
+                <tr>
+                    <th class="w3-teal">Telefono</th>
+                    <td th:text="${cliente.telefono}"/>
+                </tr>
+            </table>
+            <div class='w3-container w3-section'>
+                <button class="w3-btn w3-blue-grey" onclick="javascript:location.href = 'lista'">Volver</button>
+            </div>
+        </div>
+    </body>
+</html>

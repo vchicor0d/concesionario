@@ -5,6 +5,7 @@
  */
 package com.atsistemas.concesionario.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -18,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -40,6 +43,8 @@ public class Factura implements Serializable {
     private Double total;
     
     @OneToOne(mappedBy = "factura")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnoreProperties("factura")
     private Pedido pedido;
     
     @Column(nullable = false)

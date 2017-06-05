@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Concesionario - Lista Comerciales</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    </head>
+    <body>
+        <div class = "w3-container w3-section">
+            <table class="w3-table-all w3-hoverable w3-card-4">
+                <thead>
+                    <tr class="w3-teal">
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Telefono</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Itera la variable lista, cada objeto se llama ve -->
+                    <th:block th:each="co : ${lista}">
+                        <tr>
+                            <!-- th:text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
+                                en th:onclick va el texto como cadena entre comillas simples y las variables fuera -->
+                            <td th:text="${co.nombre}" th:onclick="'javascript:location.href = \'' + ${co.id} + '\';'"/>
+                            <td th:text="${co.correo}" th:onclick="'javascript:location.href = \'' + ${co.id} + '\';'"/>
+                            <td th:text="${co.telefono}" th:onclick="'javascript:location.href = \'' + ${co.id} + '\';'"/>
+                            <td>
+                                <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" th:onclick="'document.getElementById(\'modifica-'+${co.id}+'\').style.display = \'block\''">create</i>
+                                <form class="w3-left" method="post" th:object="${vehiculo}" action="baja">
+                                    <i class="material-icons w3-text-teal w3-hover-text-red w3-button" onclick="javascript:parentNode.submit()">delete</i>
+                                    <input type="hidden" name="id" th:value="${co.id}"/>
+                                </form>
+                            </td>
+                        </tr>
+                        <!-- Ventana modal, por defecto invisible, en th:id uso como variable la id del vehículo para formar la id del div-->
+                        <div th:id="'modifica-'+${co.id}" class = "w3-modal">
+                            <div class="w3-modal-content w3-padding-large w3-card-4">
+                                <form class="w3-container" method="POST" th:object="${comercial}" action="modifica">
+                                    <i class="material-icons w3-text-red w3-display-topright w3-button" th:onclick="'document.getElementById(\'modifica-'+${co.id}+'\').style.display = \'none\''">clear</i>
+                                    <input type="hidden" name="id" th:value="${co.id}"/>
+
+                                    <label class="w3-text-teal">Nombre</label>
+                                    <input class="w3-input w3-animate-input" type="text" name="nombre" th:value="${co.nombre}" style="width: 30%"/>
+
+                                    <label class="w3-text-teal">Correo</label>
+                                    <input class="w3-input w3-animate-input" type="text" name="correo" th:value="${co.correo}" style="width: 30%"/>
+
+                                    <label class="w3-text-teal">Telefono</label>
+                                    <input class="w3-input w3-animate-input" type="text" name="telefono" th:value="${co.telefono}" style="width: 30%"/>
+
+                                    <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Modificar"/>
+                                </form>
+                            </div>
+                        </div>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+        <div class='w3-container w3-section'>
+            <div class="w3-display-container w3-section">
+                <button class="w3-btn w3-blue-grey w3-display-left" onclick="javascript:location.href = '../inicio'">Volver</button>
+                <i class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" th:onclick="'document.getElementById(\'registro\').style.display = \'block\''">add</i>
+            </div>
+        </div>
+        <div id="registro" class = "w3-modal">
+            <div class="w3-modal-content w3-padding-large w3-card-4">
+                <form class="w3-container" method="POST" th:object="${comercial}" action="alta">
+                    <i class="material-icons w3-text-red w3-display-topright w3-button" th:onclick="'document.getElementById(\'registro\').style.display = \'none\''">clear</i>
+
+                    <label class="w3-text-teal">Nombre</label>
+                    <input class="w3-input w3-animate-input" type="text" th:field="*{nombre}" style="width: 30%"/>
+
+                    <label class="w3-text-teal">Correo</label>
+                    <input class="w3-input w3-animate-input" type="text" th:field="*{correo}" style="width: 30%"/>
+
+                    <label class="w3-text-teal">Telefono</label>
+                    <input class="w3-input w3-animate-input" type="text" th:field="*{telefono}" style="width: 30%"/>
+
+                    <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Añadir"/>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

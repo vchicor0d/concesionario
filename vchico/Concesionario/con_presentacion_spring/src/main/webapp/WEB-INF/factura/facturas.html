@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Concesionario - Lista Vehículos</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    </head>
+    <body>
+        <div class = "w3-container w3-section">
+            <table class="w3-table-all w3-hofactrable w3-card-4">
+                <thead>
+                    <tr class="w3-teal">
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Itera la variable lista, cada objeto se llama fact -->
+                    <th:block th:each="fact : ${lista}">
+                        <tr>
+                            <!-- th:text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
+                                en th:onclick va el texto como cadena entre comillas simples y las variables fuera -->
+                            <td th:text="${fact.estado}"/>
+                            <td th:text="${fact.fecha}"/>
+                            <td th:text="${fact.total}"/>
+                            <td>
+                                <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" th:onclick="|javascript:location.href = '/cobro/${fact.id}';|">euro_symbol</i>
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+        <div class='w3-container w3-section'>
+            <div class="w3-display-container w3-section">
+                <button class="w3-btn w3-blue-grey w3-display-left" onclick="javascript:location.href = '../inicio'">Volver</button>
+            </div>
+        </div>
+    </body>
+</html>

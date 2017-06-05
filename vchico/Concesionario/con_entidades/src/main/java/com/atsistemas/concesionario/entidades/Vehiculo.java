@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -44,9 +43,6 @@ public class Vehiculo implements Serializable {
     @Column(nullable = false)
     private double precio;
     
-    @ManyToOne
-    private Pedido pedido;
-
     public Vehiculo(int id, String modelo, String color, String motor, double precio) {
         this.id = id;
         this.modelo = modelo;
