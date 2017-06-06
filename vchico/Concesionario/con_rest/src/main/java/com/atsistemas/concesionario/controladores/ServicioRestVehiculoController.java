@@ -33,34 +33,34 @@ public class ServicioRestVehiculoController {
         this.servicio = servicio;
     }
     
-    @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Vehiculo> altaVehiculo(@RequestBody Vehiculo v){ //Hay que poner RequestBody para identificar que lo que viene es un vehículo
         Vehiculo nuevo = servicio.altaVehiculo(v);
         HttpStatus estado = nuevo!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(nuevo, estado);
     }
     
-    @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+    @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.PUT)
     public HttpStatus bajaVehiculo(@RequestBody Vehiculo v){
         servicio.bajaVehiculo(v);
         return HttpStatus.ACCEPTED;
     }
     
-    @RequestMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public ResponseEntity<Vehiculo> buscarVehiculo(@PathVariable int id){
         Vehiculo v = servicio.buscaVehiculo(id);
         HttpStatus estado = v!=null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(v,estado);
     }
     
-    @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public ResponseEntity<List<Vehiculo>> listarVehiculos(){
         List<Vehiculo> clientes = servicio.buscaVehiculos();
         HttpStatus estado = clientes != null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(clientes,estado);
     }
     
-    @RequestMapping(path = "/actualizar", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(path = "/actualizar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Vehiculo> actualizarVehiculo(@RequestBody Vehiculo v){
         Vehiculo act = servicio.actualizaVehiculo(v);
         HttpStatus estado = act!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;

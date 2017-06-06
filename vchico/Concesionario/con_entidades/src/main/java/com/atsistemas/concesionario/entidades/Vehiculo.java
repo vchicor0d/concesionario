@@ -6,6 +6,7 @@
 package com.atsistemas.concesionario.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -42,6 +44,9 @@ public class Vehiculo implements Serializable {
     
     @Column(nullable = false)
     private double precio;
+    
+    @ManyToMany(mappedBy = "vehiculos")
+    private List<Pedido> pedidos;
     
     public Vehiculo(int id, String modelo, String color, String motor, double precio) {
         this.id = id;

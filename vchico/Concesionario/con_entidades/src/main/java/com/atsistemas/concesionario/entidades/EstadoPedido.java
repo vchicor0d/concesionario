@@ -14,5 +14,14 @@ public enum EstadoPedido {
     ENTREGADO("Entregado"),
     SINSTOCK("Sin stock");
     
-    EstadoPedido(String valor){}
+    private final String valor;
+    
+    EstadoPedido(String valor){
+        this.valor = valor;
+    }
+    
+    @Override
+    public String toString(){
+        return valor;
+    }
 }

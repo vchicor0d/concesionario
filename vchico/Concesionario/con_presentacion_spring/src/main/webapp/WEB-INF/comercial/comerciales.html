@@ -29,9 +29,9 @@ and open the template in the editor.
                         <tr>
                             <!-- th:text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
                                 en th:onclick va el texto como cadena entre comillas simples y las variables fuera -->
-                            <td th:text="${co.nombre}" th:onclick="'javascript:location.href = \'' + ${co.id} + '\';'"/>
-                            <td th:text="${co.correo}" th:onclick="'javascript:location.href = \'' + ${co.id} + '\';'"/>
-                            <td th:text="${co.telefono}" th:onclick="'javascript:location.href = \'' + ${co.id} + '\';'"/>
+                            <td class="w3-button" th:text="${co.nombre}" th:onclick="'javascript:location.href = \'' + ${co.id} + '\';'"/>
+                            <td class="w3-button" th:text="${co.correo}" th:onclick="'javascript:location.href = \'' + ${co.id} + '\';'"/>
+                            <td class="w3-button" th:text="${co.telefono}" th:onclick="'javascript:location.href = \'' + ${co.id} + '\';'"/>
                             <td>
                                 <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" th:onclick="'document.getElementById(\'modifica-'+${co.id}+'\').style.display = \'block\''">create</i>
                                 <form class="w3-left" method="post" th:object="${vehiculo}" action="baja">
@@ -48,13 +48,13 @@ and open the template in the editor.
                                     <input type="hidden" name="id" th:value="${co.id}"/>
 
                                     <label class="w3-text-teal">Nombre</label>
-                                    <input class="w3-input w3-animate-input" type="text" name="nombre" th:value="${co.nombre}" style="width: 30%"/>
+                                    <input class="w3-input" type="text" name="nombre" th:value="${co.nombre}"/>
 
                                     <label class="w3-text-teal">Correo</label>
-                                    <input class="w3-input w3-animate-input" type="text" name="correo" th:value="${co.correo}" style="width: 30%"/>
+                                    <input class="w3-input" type="text" name="correo" th:value="${co.correo}"/>
 
                                     <label class="w3-text-teal">Telefono</label>
-                                    <input class="w3-input w3-animate-input" type="text" name="telefono" th:value="${co.telefono}" style="width: 30%"/>
+                                    <input class="w3-input" type="text" name="telefono" th:value="${co.telefono}"/>
 
                                     <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Modificar"/>
                                 </form>
@@ -76,13 +76,13 @@ and open the template in the editor.
                     <i class="material-icons w3-text-red w3-display-topright w3-button" th:onclick="'document.getElementById(\'registro\').style.display = \'none\''">clear</i>
 
                     <label class="w3-text-teal">Nombre</label>
-                    <input class="w3-input w3-animate-input" type="text" th:field="*{nombre}" style="width: 30%"/>
+                    <input class="w3-input" type="text" th:field="*{nombre}"/>
 
                     <label class="w3-text-teal">Correo</label>
-                    <input class="w3-input w3-animate-input" type="text" th:field="*{correo}" style="width: 30%"/>
+                    <input class="w3-input" type="text" th:field="*{correo}"/>
 
                     <label class="w3-text-teal">Telefono</label>
-                    <input class="w3-input w3-animate-input" type="text" th:field="*{telefono}" style="width: 30%"/>
+                    <input class="w3-input" type="text" th:field="*{telefono}"/>
 
                     <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Añadir"/>
                 </form>

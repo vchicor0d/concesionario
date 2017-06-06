@@ -35,7 +35,7 @@ public class ServicioRestComercialController {
     }
     
     @Transactional
-    @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Comercial> altaComercial(@RequestBody Comercial c){
         Comercial nuevo = servicio.altaComercial(c);
         HttpStatus estado = nuevo!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
@@ -43,14 +43,14 @@ public class ServicioRestComercialController {
     }
     
     @Transactional
-    @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+    @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.PUT)
     public HttpStatus bajaComercial(@RequestBody Comercial c){
         servicio.bajaComercial(c);
         return HttpStatus.ACCEPTED;
     }
     
     @Transactional
-    @RequestMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public ResponseEntity<Comercial> buscarComercial(@PathVariable int id){
         Comercial c = servicio.buscaComercial(id);
         HttpStatus estado = c!=null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
@@ -58,7 +58,7 @@ public class ServicioRestComercialController {
     }
     
     @Transactional
-    @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public ResponseEntity<List<Comercial>> listarComerciales(){
         List<Comercial> comercials = servicio.buscaComerciales();
         HttpStatus estado = comercials != null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
@@ -66,7 +66,7 @@ public class ServicioRestComercialController {
     }
     
     @Transactional
-    @RequestMapping(path = "/actualizar", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(path = "/actualizar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Comercial> actualizarComercial(@RequestBody Comercial c){
         Comercial act = servicio.actualizaComercial(c);
         HttpStatus estado = act!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;

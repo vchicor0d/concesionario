@@ -29,13 +29,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ServicioImpl implements Servicio {
-    
+
     private ClienteDAO clidao;
     private ComercialDAO comdao;
     private VehiculosDAO vehidao;
     private FacturaDAO factdao;
     private PedidoDAO pedidao;
-    
+
     @Autowired
     public ServicioImpl(ClienteDAO clidao, ComercialDAO comdao, VehiculosDAO vehidao, FacturaDAO factdao, PedidoDAO pedidao) {
         this.clidao = clidao;
@@ -129,23 +129,26 @@ public class ServicioImpl implements Servicio {
     public EstadoPedido estadoPedido(int id) {
         return pedidao.findEstadoById(id);
     }
-    
+
     @Override
-    public Pedido buscaPedido(int id){
+    public Pedido buscaPedido(int id) {
         return pedidao.findOne(id);
     }
 
     @Override
     public Pedido recepcionPedido(Pedido p) {
-        p.setEstado(EstadoPedido.ENTREGADO);
+        p.setEstado(EstadoPedido.ENPROCESO);
         return pedidao.save(p);
     }
 
     @Override
     public Factura generarFactura(Pedido p) {
         double total = 0.0;
-        for(Vehiculo v : p.getVehiculos()){
-            total+=v.getPrecio();
+        p = pedidao.findOne(p.getId());
+        if (p.getVehiculos() != null && !p.getVehiculos().isEmpty()) {
+            for (Vehiculo v : p.getVehiculos()) {
+                total += v.getPrecio();
+            }
         }
         Factura f = new Factura(0, new Date(System.currentTimeMillis()), total, p, EstadoFactura.NOCOBRADA);
         p.setFactura(f);
@@ -169,5 +172,15 @@ public class ServicioImpl implements Servicio {
     public Factura buscaFactura(int id) {
         return factdao.findOne(id);
     }
-    
+
+    @Override
+    public List<Pedido> buscaPedidos() {
+        return pedidao.findAll();
+    }
+
+    @Override
+    public List<Factura> buscaFacturas() {
+        return factdao.findAll();
+    }
+
 }

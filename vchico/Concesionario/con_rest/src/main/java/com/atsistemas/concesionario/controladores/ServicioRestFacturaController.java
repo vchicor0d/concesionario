@@ -8,6 +8,7 @@ package com.atsistemas.concesionario.controladores;
 import com.atsistemas.concesionario.entidades.Factura;
 import com.atsistemas.concesionario.entidades.Pedido;
 import com.atsistemas.concesionario.servicio.Servicio;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class ServicioRestFacturaController {
     }
     
     @Transactional
-    @RequestMapping(path = "/cobro/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(path = "/cobro/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public ResponseEntity<Factura> altaFactura(@PathVariable int id){
         Factura f = servicio.buscaFactura(id);
         f = servicio.cobroFactura(f);
@@ -44,11 +45,25 @@ public class ServicioRestFacturaController {
     }
     
     @Transactional
-    @RequestMapping(path="/generarFactura", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path="/generarFactura", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Factura> generarFactura(@RequestBody Pedido p){
         Factura f = servicio.generarFactura(p);
         HttpStatus estado = f != null?HttpStatus.OK:HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(f,estado);
     }
     
+    @Transactional
+    @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<List<Factura>> listarFacturas(){
+        List<Factura> lista = servicio.buscaFacturas();
+        HttpStatus estado = lista != null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(lista, estado);
+    }
+    
+    @RequestMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<Factura> buscarCliente(@PathVariable int id){
+        Factura f = servicio.buscaFactura(id);
+        HttpStatus estado = f!=null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(f,estado);
+    }
 }

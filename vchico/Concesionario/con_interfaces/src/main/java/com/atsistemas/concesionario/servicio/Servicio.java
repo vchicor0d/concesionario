@@ -42,9 +42,11 @@ public interface Servicio {
     Pedido buscaPedido(int id);
     Pedido recepcionPedido(Pedido p);
     Factura generarFactura(Pedido p);
+    List<Pedido> buscaPedidos();
     
     Factura cobroFactura(Factura f);
     Pedido entregarPedido(Pedido p);
     Factura buscaFactura(int id);
+    List<Factura> buscaFacturas();
     
 }

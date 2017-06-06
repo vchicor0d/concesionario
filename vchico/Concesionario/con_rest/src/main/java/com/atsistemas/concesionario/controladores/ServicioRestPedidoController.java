@@ -8,6 +8,8 @@ package com.atsistemas.concesionario.controladores;
 import com.atsistemas.concesionario.entidades.EstadoPedido;
 import com.atsistemas.concesionario.entidades.Pedido;
 import com.atsistemas.concesionario.servicio.Servicio;
+import java.util.Date;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,35 +36,51 @@ public class ServicioRestPedidoController {
         this.servicio = servicio;
     }
     
-    @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Pedido> altaPedido(@RequestBody Pedido p){
+        p.setFecha(new Date(System.currentTimeMillis()));
+        p.setEstado(EstadoPedido.SINSTOCK);
         Pedido nuevo = servicio.altaPedido(p);
         HttpStatus estado = nuevo!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(nuevo, estado);
     }
     
-    @RequestMapping(path="/estado/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path="/estado/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public ResponseEntity<EstadoPedido> estado(@PathVariable int id){
         EstadoPedido estado = servicio.estadoPedido(id);
         return new ResponseEntity<>(estado, HttpStatus.OK);
     }
     
     @Transactional
-    @RequestMapping(path="/recepcion/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Pedido> buscarPedido(@PathVariable int id){
+    @RequestMapping(path="/recepcion/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<Pedido> recibirPedido(@PathVariable int id){
         Pedido p = servicio.buscaPedido(id);
-        p.setEstado(EstadoPedido.ENPROCESO);
-        p = servicio.altaPedido(p);
+        p = servicio.recepcionPedido(p);
         HttpStatus estado = p!=null?HttpStatus.OK:HttpStatus.NO_CONTENT;
         return new ResponseEntity<>(p,estado);
     }
     
-    @RequestMapping(path = "/entrega/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "/entrega/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public ResponseEntity<Pedido> entregaPedido(@PathVariable int id){
         Pedido p = servicio.buscaPedido(id);
         p = servicio.entregarPedido(p);
         HttpStatus estado = p!=null?HttpStatus.OK:HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(p, estado);
+    }
+    
+    @Transactional
+    @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<List<Pedido>> listarPedidos(){
+        List<Pedido> lista = servicio.buscaPedidos();
+        HttpStatus estado = lista != null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(lista, estado);
+    }
+    
+    @RequestMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<Pedido> buscarPedido(@PathVariable int id){
+        Pedido p = servicio.buscaPedido(id);
+        HttpStatus estado = p!=null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(p,estado);
     }
     
 }

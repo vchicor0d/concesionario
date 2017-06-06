@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Concesionario - Lista Vehículos</title>
+        <title>Concesionario - Lista Facturas</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
@@ -14,7 +14,7 @@ and open the template in the editor.
     </head>
     <body>
         <div class = "w3-container w3-section">
-            <table class="w3-table-all w3-hofactrable w3-card-4">
+            <table class="w3-table-all w3-hoverable w3-card-4">
                 <thead>
                     <tr class="w3-teal">
                         <th>Estado</th>
@@ -29,11 +29,11 @@ and open the template in the editor.
                         <tr>
                             <!-- th:text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
                                 en th:onclick va el texto como cadena entre comillas simples y las variables fuera -->
-                            <td th:text="${fact.estado}"/>
-                            <td th:text="${fact.fecha}"/>
-                            <td th:text="${fact.total}"/>
+                            <td class="w3-button" th:text="${fact.estado}"/>
+                            <td class="w3-button" th:text="${fact.fecha}"/>
+                            <td class="w3-button" th:text="${fact.total}"/>
                             <td>
-                                <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" th:onclick="|javascript:location.href = '/cobro/${fact.id}';|">euro_symbol</i>
+                                <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" th:onclick="|javascript:location.href = 'cierre/${fact.id}';|">euro_symbol</i>
                             </td>
                         </tr>
                     </th:block>

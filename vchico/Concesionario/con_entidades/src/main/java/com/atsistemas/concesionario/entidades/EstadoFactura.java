@@ -14,5 +14,14 @@ public enum EstadoFactura {
     NOCOBRADA("No cobrada"),
     FALLIDO("Cobro fallido");
     
-    EstadoFactura(String valor){}
+    private final String valor;
+    
+    EstadoFactura(String valor){
+        this.valor=valor;
+    }
+    
+    @Override
+    public String toString(){
+        return valor;
+    }
 }

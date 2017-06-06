@@ -6,17 +6,10 @@
 package com.atsistemas.concesionario.controladores;
 
 import com.atsistemas.concesionario.entidades.Factura;
-import com.atsistemas.concesionario.entidades.Vehiculo;
-import java.util.ArrayList;
+import com.atsistemas.concesionario.entidades.Pedido;
 import java.util.List;
-import javax.validation.Valid;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Controller
 @RequestMapping("/factura")
-public class FactuarController {
+public class FacturaController {
 
     @RequestMapping(path="/lista")
     public String lista(Model modelo){
@@ -38,23 +31,13 @@ public class FactuarController {
         return "factura/facturas";
     }
     
-    @RequestMapping(path = "/cobro/{id}")
+    @RequestMapping(path = "/cierre/{id}")
     public String detalle(@PathVariable int id, Model modelo){
         RestTemplate restTemplate = new RestTemplate();
         Factura v = restTemplate.getForObject("http://localhost:8080/con_rest/api/factura/cobro/"+id, Factura.class);
-        modelo.addAttribute("factura",v);
-        return "vehiculo/detalle";
-    }
-    
-    @RequestMapping(path = "/modifica")
-    public String modifica(@ModelAttribute @Valid Vehiculo vehiculo){
-        RestTemplate restTemplate = new RestTemplate();
-        List<HttpMessageConverter<?>> list = new ArrayList<>();
-        list.add(new MappingJackson2HttpMessageConverter());
-        restTemplate.setMessageConverters(list);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        restTemplate.postForObject("http://localhost:8080/con_rest/api/vehiculo/actualizar", vehiculo, Vehiculo.class, headers);
+        if(v!=null && v.getPedido()!=null){
+            restTemplate.getForObject("http://localhost:8080/con_rest/pedido/entrega/"+v.getPedido().getId(), Pedido.class);
+        }
         return "redirect:lista";
     }
 

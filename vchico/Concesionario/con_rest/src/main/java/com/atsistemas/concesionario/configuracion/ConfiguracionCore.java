@@ -39,8 +39,8 @@ public class ConfiguracionCore {
     public DataSource dataSource() {
         BasicDataSource bds = new BasicDataSource();
         bds.setUrl("jdbc:derby://localhost:1527/Concesionario;create=true");
-        bds.setUsername("admin");
-        bds.setPassword("admin");
+        bds.setUsername("concesionario");
+        bds.setPassword("concesionario");
         bds.setDriverClassName("org.apache.derby.jdbc.ClientDriver");
         return bds;
     }

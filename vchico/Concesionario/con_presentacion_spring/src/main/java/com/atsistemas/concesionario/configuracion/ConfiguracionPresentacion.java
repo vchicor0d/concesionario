@@ -58,7 +58,7 @@ public class ConfiguracionPresentacion implements ApplicationContextAware{
         viewResolver.setTemplateEngine(templateEngine());
         return viewResolver;
     }
-
+    
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext=applicationContext;
