@@ -32,13 +32,21 @@ public class FacturaController {
     }
     
     @RequestMapping(path = "/cierre/{id}")
-    public String detalle(@PathVariable int id, Model modelo){
+    public String cierre(@PathVariable int id, Model modelo){
         RestTemplate restTemplate = new RestTemplate();
         Factura v = restTemplate.getForObject("http://localhost:8080/con_rest/api/factura/cobro/"+id, Factura.class);
         if(v!=null && v.getPedido()!=null){
-            restTemplate.getForObject("http://localhost:8080/con_rest/pedido/entrega/"+v.getPedido().getId(), Pedido.class);
+            restTemplate.getForObject("http://localhost:8080/con_rest/api/pedido/entrega/"+v.getPedido().getId(), Pedido.class);
         }
-        return "redirect:lista";
+        return "redirect:../lista";
+    }
+    
+    @RequestMapping(path = "{id}")
+    public String detalle(@PathVariable int id, Model modelo){
+        RestTemplate restTemplate = new RestTemplate();
+        Factura f = restTemplate.getForObject("http://localhost:8080/con_rest/api/factura/"+id, Factura.class);
+        modelo.addAttribute("factura",f);
+        return "factura/detalle";
     }
 
 }

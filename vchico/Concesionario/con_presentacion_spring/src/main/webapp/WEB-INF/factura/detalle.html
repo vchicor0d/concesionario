@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Concesionario - Detalle comercial</title>
+        <title>Concesionario - Detalle Factura</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
@@ -16,21 +16,24 @@ and open the template in the editor.
         <div class = "w3-container w3-section">
             <table class="w3-table-all w3-card-4">
                 <tr>
-                    <th class="w3-teal">Nombre</th>
-                    <td data-th-text="${comercial.nombre}"/>
+                    <th class="w3-teal">Estado</th>
+                    <td data-th-text="${factura.estado}"/>
                 </tr>
                 <tr>
-                    <th class="w3-teal">Correo</th>
-                    <td data-th-text="${comercial.correo}"/>
+                    <th class="w3-teal">Total</th>
+                    <td data-th-text="${factura.total}"/>
                 </tr>
                 <tr>
-                    <th class="w3-teal">Telefono</th>
-                    <td data-th-text="${comercial.telefono}"/>
+                    <th class="w3-teal">Fecha</th>
+                    <td data-th-text="${factura.fecha}"/>
                 </tr>
             </table>
-            <div class='w3-container w3-section'>
-                <button class="w3-btn w3-blue-grey" onclick="javascript:window.history.back()">Volver</button>
-            </div>
+        </div>
+        <div class='w3-container w3-section' data-th-if="${factura.pedido != null}">
+            <button class="w3-btn w3-blue-grey" data-th-onclick="|javascript:location.href = '../pedido/${factura.pedido?.id}'|">Ver Pedido</button>
+        </div>
+        <div class='w3-container w3-section'>
+            <button class="w3-btn w3-blue-grey" onclick="javascript:window.history.back()">Volver</button>
         </div>
     </body>
 </html>

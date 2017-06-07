@@ -4,7 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html>
     <head>
         <title>Concesionario - Lista Clientes</title>
         <meta charset="UTF-8"/>
@@ -25,76 +25,74 @@ and open the template in the editor.
                 </thead>
                 <tbody>
                     <!-- Itera la variable lista, cada objeto se llama ve -->
-                    <th:block th:each="cli : ${lista}">
-                        <tr>
-                            <!-- th:text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
-                                en th:onclick va el texto como cadena entre comillas simples y las variables fuera -->
-                            <td class="w3-button" th:text="${cli.nombre}" th:onclick="'javascript:location.href = \'' + ${cli.id} + '\';'"/>
-                            <td class="w3-button" th:text="${cli.correo}" th:onclick="'javascript:location.href = \'' + ${cli.id} + '\';'"/>
-                            <td class="w3-button" th:text="${cli.telefono}" th:onclick="'javascript:location.href = \'' + ${cli.id} + '\';'"/>
-                            <td>
-                                <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" th:onclick="'document.getElementById(\'modifica-'+${cli.id}+'\').style.display = \'block\''">create</i>
-                                <form class="w3-left" method="post" th:object="${vehiculo}" action="baja">
-                                    <i class="material-icons w3-text-teal w3-hover-text-red w3-button" onclick="javascript:parentNode.submit()">delete</i>
-                                    <input type="hidden" name="id" th:value="${cli.id}"/>
-                                </form>
-                            </td>
-                        </tr>
-                        <!-- Ventana modal, por defecto invisible, en th:id uso como variable la id del vehículo para formar la id del div-->
-                        <div th:id="'modifica-'+${cli.id}" class = "w3-modal">
-                            <div class="w3-modal-content w3-padding-large w3-card-4">
-                                <form class="w3-container" method="POST" th:object="${cliente}" action="modifica">
-                                    <i class="material-icons w3-text-red w3-display-topright w3-button" th:onclick="'document.getElementById(\'modifica-'+${cli.id}+'\').style.display = \'none\''">clear</i>
-                                    <input type="hidden" name="id" th:value="${cli.id}"/>
-                                    <!-- Usar th:field no funciona en conjunción con th:value o th:selected, hay que usar name en su lugar -->
-                                    <!--<input type="hidden" name="comercial.id" th:value="${comercial.id}"/>-->
-
-                                    <label class="w3-text-teal">Nombre</label>
-                                    <input class="w3-input" type="text" name="nombre" th:value="${cli.nombre}"/>
-
-                                    <label class="w3-text-teal">Correo</label>
-                                    <input class="w3-input" type="text" name="correo" th:value="${cli.correo}"/>
-
-                                    <label class="w3-text-teal">Telefono</label>
-                                    <input class="w3-input" type="text" name="telefono" th:value="${cli.telefono}"/>
-
-                                    <label class="w3-text-teal">Comercial</label>
-                                    <select class="w3-select" name="comercial.id"> 
-                                        <option value="-1"/>
-                                        <option th:each="c : ${comerciales}" th:value="${c.id}" th:text="${c.nombre}" th:selected="${cli.comercial?.id == c.id? true : false}"/>
-                                    </select>
-                                    <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Modificar"/>
-                                </form>
-                            </div>
-                        </div>
-                    </th:block>
+                    <tr data-th-each="cli : ${lista}">
+                        <!-- data-th-text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
+                            en data-th-onclick va el texto como cadena entre comillas simples y las variables fuera -->
+                        <td class="w3-button" data-th-text="${cli.nombre}" data-th-onclick="'javascript:location.href = \'' + ${cli.id} + '\';'"/>
+                        <td class="w3-button" data-th-text="${cli.correo}" data-th-onclick="'javascript:location.href = \'' + ${cli.id} + '\';'"/>
+                        <td class="w3-button" data-th-text="${cli.telefono}" data-th-onclick="'javascript:location.href = \'' + ${cli.id} + '\';'"/>
+                        <td>
+                            <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="'document.getElementById(\'modifica-'+${cli.id}+'\').style.display = \'block\''">create</i>
+                            <form class="w3-left" method="post" data-th-object="${vehiculo}" action="baja">
+                                <i class="material-icons w3-text-teal w3-hover-text-red w3-button" onclick="javascript:parentNode.submit()">delete</i>
+                                <input type="hidden" name="id" data-th-value="${cli.id}"/>
+                            </form>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
+            <!-- Ventana modal, por defecto invisible, en data-th-id uso como variable la id del vehículo para formar la id del div-->
+            <div data-th-each="cli : ${lista}" data-th-id="'modifica-'+${cli.id}" class = "w3-modal">
+                <div class="w3-modal-content w3-padding-large w3-card-4">
+                    <form class="w3-container" method="POST" data-th-object="${cliente}" action="modifica">
+                        <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="'document.getElementById(\'modifica-'+${cli.id}+'\').style.display = \'none\''">clear</i>
+                        <input type="hidden" name="id" data-th-value="${cli.id}"/>
+                        <!-- Usar data-th-field no funciona en conjunción con data-th-value o data-th-selected, hay que usar name en su lugar -->
+                        <!--<input type="hidden" name="comercial.id" data-th-value="${comercial.id}"/>-->
+
+                        <label class="w3-text-teal">Nombre</label>
+                        <input class="w3-input" type="text" name="nombre" data-th-value="${cli.nombre}"/>
+
+                        <label class="w3-text-teal">Correo</label>
+                        <input class="w3-input" type="text" name="correo" data-th-value="${cli.correo}"/>
+
+                        <label class="w3-text-teal">Telefono</label>
+                        <input class="w3-input" type="text" name="telefono" data-th-value="${cli.telefono}"/>
+
+                        <label class="w3-text-teal">Comercial</label>
+                        <select class="w3-select" name="comercial.id"> 
+                            <option value="-1"/>
+                            <option data-th-each="c : ${comerciales}" data-th-value="${c.id}" data-th-text="${c.nombre}" data-th-selected="${cli.comercial?.id == c.id? true : false}"/>
+                        </select>
+                        <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Modificar"/>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class='w3-container w3-section'>
             <div class="w3-display-container w3-section">
                 <button class="w3-btn w3-blue-grey w3-display-left" onclick="javascript:location.href = '../inicio'">Volver</button>
-                <i class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" th:onclick="'document.getElementById(\'registro\').style.display = \'block\''">add</i>
+                <i class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="'document.getElementById(\'registro\').style.display = \'block\''">add</i>
             </div>
         </div>
         <div id="registro" class = "w3-modal">
             <div class="w3-modal-content w3-padding-large w3-card-4">
-                <form class="w3-container" method="POST" th:object="${cliente}" action="alta">
-                    <i class="material-icons w3-text-red w3-display-topright w3-button" th:onclick="'document.getElementById(\'registro\').style.display = \'none\''">clear</i>
+                <form class="w3-container" method="POST" data-th-object="${cliente}" action="alta">
+                    <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="'document.getElementById(\'registro\').style.display = \'none\''">clear</i>
 
                     <label class="w3-text-teal">Nombre</label>
-                    <input class="w3-input" type="text" th:field="*{nombre}"/>
+                    <input class="w3-input" type="text" data-th-field="*{nombre}"/>
 
                     <label class="w3-text-teal">Correo</label>
-                    <input class="w3-input" type="text" th:field="*{correo}"/>
+                    <input class="w3-input" type="text" data-th-field="*{correo}"/>
 
                     <label class="w3-text-teal">Telefono</label>
-                    <input class="w3-input" type="text" th:field="*{telefono}"/>
+                    <input class="w3-input" type="text" data-th-field="*{telefono}"/>
 
                     <label class="w3-text-teal">Comercial</label>
-                    <select class="w3-select" th:field="*{comercial}">
+                    <select class="w3-select" data-th-field="*{comercial.id}">
                         <option value="-1"/>
-                        <option th:each="c : ${comerciales}" th:value="${c.id}" th:text="${c.nombre}"/>
+                        <option data-th-each="c : ${comerciales}" data-th-value="${c.id}" data-th-text="${c.nombre}"/>
                     </select>
 
                     <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Añadir"/>

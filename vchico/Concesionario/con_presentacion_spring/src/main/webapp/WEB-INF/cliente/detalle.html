@@ -4,7 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html>
     <head>
         <title>Concesionario - Detalle Cliente</title>
         <meta charset="UTF-8"/>
@@ -17,19 +17,23 @@ and open the template in the editor.
             <table class="w3-table-all w3-card-4">
                 <tr>
                     <th class="w3-teal">Nombre</th>
-                    <td th:text="${cliente.nombre}"/>
+                    <td data-th-text="${cliente.nombre}"/>
                 </tr>
                 <tr>
                     <th class="w3-teal">Correo</th>
-                    <td th:text="${cliente.correo}"/>
+                    <td data-th-text="${cliente.correo}"/>
                 </tr>
                 <tr>
                     <th class="w3-teal">Telefono</th>
-                    <td th:text="${cliente.telefono}"/>
+                    <td data-th-text="${cliente.telefono}"/>
+                </tr>
+                <tr data-th-if="${cliente.comercial != null}">
+                    <th class="w3-teal">Comercial</th>
+                    <td data-th-text="${cliente.comercial?.nombre}"/>
                 </tr>
             </table>
             <div class='w3-container w3-section'>
-                <button class="w3-btn w3-blue-grey" onclick="javascript:location.href = 'lista'">Volver</button>
+                <button class="w3-btn w3-blue-grey" onclick="javascript:window.history.back()">Volver</button>
             </div>
         </div>
     </body>

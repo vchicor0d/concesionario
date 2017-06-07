@@ -39,23 +39,23 @@ public class ConfiguracionPresentacion implements ApplicationContextAware{
         templateResolver.setSuffix(".html");
         // Template cache is true by default. Set to false if you want
         // templates to be automatically updated when modified.
-        templateResolver.setCacheable(true);
+        templateResolver.setCacheable(false);
         return templateResolver;
     }
 
     @Bean
-    public SpringTemplateEngine templateEngine() {
+    public SpringTemplateEngine templateEngine(SpringResourceTemplateResolver resolver) {
         // SpringTemplateEngine automatically applies SpringStandardDialect and
         // enables Spring's own MessageSource message resolution mechanisms.
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setTemplateResolver(resolver);
         return templateEngine;
     }
 
     @Bean
-    public ThymeleafViewResolver viewResolver() {
+    public ThymeleafViewResolver viewResolver(SpringTemplateEngine engine) {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine());
+        viewResolver.setTemplateEngine(engine);
         return viewResolver;
     }
     

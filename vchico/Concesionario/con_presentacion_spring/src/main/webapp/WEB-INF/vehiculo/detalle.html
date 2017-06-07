@@ -4,7 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html>
     <head>
         <title>Concesionario - Detalle vehículo</title>
         <meta charset="UTF-8"/>
@@ -17,27 +17,27 @@ and open the template in the editor.
             <table class="w3-table-all w3-card-4">
                 <tr>
                     <th class="w3-teal">Modelo</th>
-                    <td th:text="${vehiculo.modelo}"/>
+                    <td data-th-text="${vehiculo.modelo}"/>
                 </tr>
                 <tr>
                     <th class="w3-teal">Motor</th>
-                    <td th:text="${vehiculo.motor}"/>
+                    <td data-th-text="${vehiculo.motor}"/>
                 </tr>
                 <tr>
                     <th class="w3-teal">Color</th>
-                    <td th:text="${vehiculo.color}"/>
+                    <td data-th-text="${vehiculo.color}"/>
                 </tr>
                 <tr>
                     <th class="w3-teal">Descripcion</th>
-                    <td th:text="${vehiculo.descripcion}"/>
+                    <td data-th-text="${vehiculo.descripcion}"/>
                 </tr>
                 <tr>
                     <th class="w3-teal">Precio</th>
-                    <td th:text="${vehiculo.precio}"/>
+                    <td data-th-text="${vehiculo.precio}"/>
                 </tr>
             </table>
             <div class='w3-container w3-section'>
-                <button class="w3-btn w3-blue-grey" onclick="javascript:location.href = 'lista'">Volver</button>
+                <button class="w3-btn w3-blue-grey" onclick="javascript:window.history.back()">Volver</button>
             </div>
         </div>
     </body>

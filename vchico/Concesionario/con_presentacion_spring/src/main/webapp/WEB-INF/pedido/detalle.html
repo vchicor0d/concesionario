@@ -4,9 +4,9 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html>
     <head>
-        <title>Concesionario - Detalle Cliente</title>
+        <title>Concesionario - Detalle Pedido</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
@@ -16,21 +16,48 @@ and open the template in the editor.
         <div class = "w3-container w3-section">
             <table class="w3-table-all w3-card-4">
                 <tr>
-                    <th class="w3-teal">Nombre</th>
-                    <td th:text="${pedido.nombre}"/>
+                    <th class="w3-teal">Cliente</th>
+                    <td data-th-text="${pedido.cliente.nombre}"/>
                 </tr>
                 <tr>
-                    <th class="w3-teal">Correo</th>
-                    <td th:text="${pedido.correo}"/>
+                    <th class="w3-teal">Comercial</th>
+                    <td data-th-text="${pedido.comercial.nombre}"/>
                 </tr>
                 <tr>
-                    <th class="w3-teal">Telefono</th>
-                    <td th:text="${pedido.telefono}"/>
+                    <th class="w3-teal">Estado</th>
+                    <td data-th-text="${pedido.estado}"/>
+                </tr>
+                <tr>
+                    <th class="w3-teal">Fecha</th>
+                    <td data-th-text="${pedido.fecha}"/>
                 </tr>
             </table>
-            <div class='w3-container w3-section'>
-                <button class="w3-btn w3-blue-grey" onclick="javascript:location.href = 'lista'">Volver</button>
-            </div>
+        </div>
+        <div class='w3-container w3-section' data-th-if="${pedido.factura != null}">
+            <button class="w3-btn w3-blue-grey" data-th-onclick="|javascript:location.href = '../factura/${pedido.factura?.id}'|">Ver Factura</button>
+        </div>
+        <div class="w3-container w3-section" data-th-if="${pedido.vehiculos != null and !pedido.vehiculos?.isEmpty()}">
+            <table class="w3-table-all w3-card-4">
+                <thead>
+                    <tr class="w3-teal">
+                        <th>Modelo</th>
+                        <th>Motor</th>
+                        <th>Color</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-th-each="ve : ${pedido.vehiculos}">
+                        <td data-th-text="${ve.modelo}"/>
+                        <td data-th-text="${ve.motor}"/>
+                        <td data-th-text="${ve.color}"/>
+                        <td data-th-text="${ve.precio}"/>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class='w3-container w3-section'>
+            <button class="w3-btn w3-blue-grey" onclick="javascript:window.history.back()">Volver</button>
         </div>
     </body>
 </html>

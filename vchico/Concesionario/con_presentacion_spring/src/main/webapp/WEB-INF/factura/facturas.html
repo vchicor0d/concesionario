@@ -4,7 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html>
     <head>
         <title>Concesionario - Lista Facturas</title>
         <meta charset="UTF-8"/>
@@ -25,18 +25,16 @@ and open the template in the editor.
                 </thead>
                 <tbody>
                     <!-- Itera la variable lista, cada objeto se llama fact -->
-                    <th:block th:each="fact : ${lista}">
-                        <tr>
-                            <!-- th:text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
-                                en th:onclick va el texto como cadena entre comillas simples y las variables fuera -->
-                            <td class="w3-button" th:text="${fact.estado}"/>
-                            <td class="w3-button" th:text="${fact.fecha}"/>
-                            <td class="w3-button" th:text="${fact.total}"/>
-                            <td>
-                                <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" th:onclick="|javascript:location.href = 'cierre/${fact.id}';|">euro_symbol</i>
-                            </td>
-                        </tr>
-                    </th:block>
+                    <tr data-th-each="fact : ${lista}">
+                        <!-- data-th-text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
+                            en data-th-onclick va el texto como cadena entre comillas simples y las variables fuera -->
+                        <td class="w3-button" data-th-text="${fact.estado}" data-th-onclick="|javascript:location.href = '${factura.id}';|"/>
+                        <td class="w3-button" data-th-text="${fact.fecha}" data-th-onclick="|javascript:location.href = '${factura.id}';|"/>
+                        <td class="w3-button" data-th-text="${fact.total}" data-th-onclick="|javascript:location.href = '${factura.id}';|"/>
+                        <td>
+                            <i data-th-if="${fact.estado != 'COBRADA'}" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = 'cierre/${fact.id}';|">euro_symbol</i>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

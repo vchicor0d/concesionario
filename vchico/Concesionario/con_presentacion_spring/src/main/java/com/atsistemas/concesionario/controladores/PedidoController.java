@@ -5,9 +5,11 @@
  */
 package com.atsistemas.concesionario.controladores;
 
+import com.atsistemas.concesionario.entidades.Cliente;
 import com.atsistemas.concesionario.entidades.Comercial;
 import com.atsistemas.concesionario.entidades.Factura;
 import com.atsistemas.concesionario.entidades.Pedido;
+import com.atsistemas.concesionario.entidades.Vehiculo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -51,6 +53,12 @@ public class PedidoController {
         //Hay que añadir al modelo las variables que usará la plantilla, la lista que itera en la tabla y el vehículo que usará para el alta y la modificación
         modelo.addAttribute("lista", lista);
         modelo.addAttribute("pedido", new Pedido());
+        List<Cliente> clientes = restTemplate.getForObject("http://localhost:8080/con_rest/api/cliente/lista", List.class);
+        modelo.addAttribute("clientes", clientes);
+        List<Comercial> comerciales = restTemplate.getForObject("http://localhost:8080/con_rest/api/comercial/lista", List.class);
+        modelo.addAttribute("comerciales", comerciales);
+        List<Vehiculo> vehiculos = restTemplate.getForObject("http://localhost:8080/con_rest/api/vehiculo/lista", List.class);
+        modelo.addAttribute("vehi", vehiculos);
         return "pedido/pedidos";
     }
     
@@ -74,7 +82,7 @@ public class PedidoController {
         if(p!=null){
             restTemplate.postForObject("http://localhost:8080/con_rest/api/factura/generarFactura", p, Factura.class, headers);
         }
-        return "redirect:lista";
+        return "redirect:../lista";
     }
 
 }

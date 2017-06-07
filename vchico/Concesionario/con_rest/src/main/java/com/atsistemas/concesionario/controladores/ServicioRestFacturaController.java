@@ -46,10 +46,10 @@ public class ServicioRestFacturaController {
     
     @Transactional
     @RequestMapping(path="/generarFactura", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Factura> generarFactura(@RequestBody Pedido p){
+    public /*ResponseEntity<Factura>*/ void generarFactura(@RequestBody Pedido p){
         Factura f = servicio.generarFactura(p);
         HttpStatus estado = f != null?HttpStatus.OK:HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(f,estado);
+        //return new ResponseEntity<>(f,estado);
     }
     
     @Transactional

@@ -44,7 +44,7 @@ public class Factura implements Serializable {
     
     @OneToOne(mappedBy = "factura")
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JsonIgnoreProperties("factura")
+    @JsonIgnoreProperties({"factura", "vehiculos"})
     private Pedido pedido;
     
     @Column(nullable = false)
