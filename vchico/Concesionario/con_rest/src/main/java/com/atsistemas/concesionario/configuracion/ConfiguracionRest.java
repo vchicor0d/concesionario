@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 /**
@@ -23,6 +24,9 @@ public class ConfiguracionRest implements WebApplicationInitializer {
         //Se define el contexto de spring mediante clases anotadas
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.setConfigLocation("com.atsistemas.concesionario.configuracion");
+        
+        //Configuramos Spring Security
+        servletContext.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain")).addMappingForUrlPatterns(null, true, "/*");
         
         //Conectamos el servlet de entrada con el contexto de spring
         DispatcherServlet ds = new DispatcherServlet(context);
