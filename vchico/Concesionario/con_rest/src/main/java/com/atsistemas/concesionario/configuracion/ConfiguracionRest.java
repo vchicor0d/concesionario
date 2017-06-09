@@ -5,37 +5,18 @@
  */
 package com.atsistemas.concesionario.configuracion;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.filter.DelegatingFilterProxy;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  *
  * @author vchico
  */
-public class ConfiguracionRest implements WebApplicationInitializer {
+@Configuration
+@EnableWebMvc
+@ComponentScan({"com.atsistemas.concesionario.controladores","com.atsistemas.concesionario.configuracion"}) //Dónde están los Beans de spring y el resto de configuracion
+public class ConfiguracionRest {
     
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        //Se define el contexto de spring mediante clases anotadas
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.setConfigLocation("com.atsistemas.concesionario.configuracion");
-        
-        //Configuramos Spring Security
-        servletContext.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain")).addMappingForUrlPatterns(null, true, "/*");
-        
-        //Conectamos el servlet de entrada con el contexto de spring
-        DispatcherServlet ds = new DispatcherServlet(context);
-        
-        //Interfaz que cumple un servlet que nos permite añadir mapeos
-        ServletRegistration.Dynamic addServlet = servletContext.addServlet("ds", ds);
-        
-        //Lo mapeamos
-        addServlet.setLoadOnStartup(0);
-        addServlet.addMapping("/api/*");
-    }
+    
 }

@@ -5,6 +5,7 @@
  */
 package com.atsistemas.concesionario.configuracion;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,39 +23,31 @@ public class ConfiguracionSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/vehiculo/*").hasRole("ADMINISTRATIVO")
-                .antMatchers(HttpMethod.PUT, "/vehiculo/*").hasRole("ADMINISTRATIVO")
-                .antMatchers(HttpMethod.POST, "/clientes/*").hasRole("COMERCIAL")
-                .antMatchers(HttpMethod.PUT, "/clientes/*").hasRole("COMERCIAL")
-                .antMatchers(HttpMethod.POST, "/comercial/*").hasRole("GERENTE")
-                .antMatchers(HttpMethod.PUT, "/comercial/*").hasRole("GERENTE")
-                .antMatchers(HttpMethod.POST, "/factura/*").hasRole("COMERCIAL")
-                .antMatchers(HttpMethod.PUT, "/factura/*").hasRole("COMERCIAL")
-                .antMatchers(HttpMethod.POST, "/pedido/*").hasRole("ADMINISTRATIVO")
-                .antMatchers(HttpMethod.PUT, "/pedido/*").hasRole("ADMINISTRATIVO")
-                .anyRequest().permitAll()
-                .and()
-                .httpBasic();
+        
+        http.authorizeRequests().mvcMatchers(HttpMethod.GET, "/vehiculo").authenticated();
+        http.authorizeRequests().mvcMatchers(HttpMethod.GET, "/pedido").authenticated();
+        http.authorizeRequests().mvcMatchers("/vehiculo", "/pedido").hasRole("ADMINISTRATIVO");
+        http.authorizeRequests().mvcMatchers(HttpMethod.GET, "/cliente").authenticated();
+        http.authorizeRequests().mvcMatchers(HttpMethod.GET, "/factura").authenticated();
+        http.authorizeRequests().mvcMatchers("/cliente", "/factura").hasRole("COMERCIAL");
+        http.authorizeRequests().mvcMatchers(HttpMethod.GET, "/comercial").authenticated();
+        http.authorizeRequests().mvcMatchers("/comercial").hasRole("GERENTE");
+        http.authorizeRequests().antMatchers("/**").authenticated();
+        
+        http.csrf().disable();
+        
+        http.httpBasic();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMINISTRATIVO");
-        auth.inMemoryAuthentication().withUser("comercial").password("comercial").roles("COMERCIAL");
-        auth.inMemoryAuthentication().withUser("gerente").password("gerente").roles("GERENTE");
-    }
+    @Autowired
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-//        manager.createUser(User.withUsername("admin").password("admin").roles("ADMINISTRATIVO").build());
-//        manager.createUser(User.withUsername("comercial").password("comercial").roles("COMERCIAL").build());
-//        manager.createUser(User.withUsername("gerente").password("gerente").roles("GERENTE").build());
-//        return manager;
-//    }
+        auth.inMemoryAuthentication()
+                .withUser("admin").password("admin").roles("ADMINISTRATIVO");
+        auth.inMemoryAuthentication()
+                .withUser("comercial").password("comercial").roles("COMERCIAL");
+        auth.inMemoryAuthentication()
+                .withUser("gerente").password("gerente").roles("GERENTE");
+    }
 
 }
