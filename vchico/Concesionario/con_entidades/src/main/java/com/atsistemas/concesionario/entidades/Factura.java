@@ -103,12 +103,10 @@ public class Factura implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
         hash = 13 * hash + this.id;
         hash = 13 * hash + Objects.hashCode(this.fecha);
         hash = 13 * hash + Objects.hashCode(this.total);
-        hash = 13 * hash + Objects.hashCode(this.pedido);
-        hash = 13 * hash + Objects.hashCode(this.estado);
         return hash;
     }
 

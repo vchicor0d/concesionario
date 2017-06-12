@@ -8,7 +8,6 @@ package com.atsistemas.concesionario.entidades;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
@@ -121,13 +120,8 @@ public class Cliente implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + this.id;
-        hash = 29 * hash + Objects.hashCode(this.nombre);
-        hash = 29 * hash + Objects.hashCode(this.telefono);
-        hash = 29 * hash + Objects.hashCode(this.correo);
-        hash = 29 * hash + Objects.hashCode(this.pedidos);
-        hash = 29 * hash + Objects.hashCode(this.comercial);
+        int hash = 5;
+        hash = 79 * hash + this.id;
         return hash;
     }
 
@@ -144,21 +138,6 @@ public class Cliente implements Serializable {
         }
         final Cliente other = (Cliente) obj;
         if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        if (!Objects.equals(this.telefono, other.telefono)) {
-            return false;
-        }
-        if (!Objects.equals(this.correo, other.correo)) {
-            return false;
-        }
-        if (!Objects.equals(this.pedidos, other.pedidos)) {
-            return false;
-        }
-        if (!Objects.equals(this.comercial, other.comercial)) {
             return false;
         }
         return true;

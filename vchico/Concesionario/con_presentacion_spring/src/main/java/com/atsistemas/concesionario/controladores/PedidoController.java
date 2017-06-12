@@ -59,6 +59,7 @@ public class PedidoController {
         modelo.addAttribute("comerciales", comerciales);
         List<Vehiculo> vehiculos = restTemplate.getForObject("http://localhost:8080/con_rest/api/vehiculo/lista", List.class);
         modelo.addAttribute("vehi", vehiculos);
+        modelo.addAttribute("vehiculo", new Vehiculo());
         return "pedido/pedidos";
     }
     

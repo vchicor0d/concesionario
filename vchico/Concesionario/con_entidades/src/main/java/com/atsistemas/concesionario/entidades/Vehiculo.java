@@ -109,12 +109,12 @@ public class Vehiculo implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + this.id;
-        hash = 17 * hash + Objects.hashCode(this.descripcion);
-        hash = 17 * hash + Objects.hashCode(this.modelo);
-        hash = 17 * hash + Objects.hashCode(this.color);
-        hash = 17 * hash + Objects.hashCode(this.motor);
-        hash = 17 * hash + (int) (Double.doubleToLongBits(this.precio) ^ (Double.doubleToLongBits(this.precio) >>> 32));
+        hash = 67 * hash + this.id;
+        hash = 67 * hash + Objects.hashCode(this.descripcion);
+        hash = 67 * hash + Objects.hashCode(this.modelo);
+        hash = 67 * hash + Objects.hashCode(this.color);
+        hash = 67 * hash + Objects.hashCode(this.motor);
+        hash = 67 * hash + (int) (Double.doubleToLongBits(this.precio) ^ (Double.doubleToLongBits(this.precio) >>> 32));
         return hash;
     }
 
@@ -133,19 +133,13 @@ public class Vehiculo implements Serializable {
         if (this.id != other.id) {
             return false;
         }
-        if (Double.doubleToLongBits(this.precio) != Double.doubleToLongBits(other.precio)) {
-            return false;
-        }
-        if (!Objects.equals(this.descripcion, other.descripcion)) {
-            return false;
-        }
         if (!Objects.equals(this.modelo, other.modelo)) {
             return false;
         }
-        if (!Objects.equals(this.motor, other.motor)) {
+        if (!Objects.equals(this.color, other.color)) {
             return false;
         }
-        if (!Objects.equals(this.color, other.color)) {
+        if (!Objects.equals(this.motor, other.motor)) {
             return false;
         }
         return true;

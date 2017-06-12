@@ -65,10 +65,31 @@ and open the template in the editor.
                     </select>
 
                     <label class="w3-text-teal">Vehiculos</label>
-                    <select multiple class="w3-select" name="vehiculos.id">
-                        <option data-th-each="v : ${vehi}" data-th-value="${v.id}" data-th-text="|${v.modelo} - ${v.motor} (${v.color})|"/>
+                    <select multiple="multiple" class="w3-select" id="lista">
+                        <option data-th-each="v : ${vehi}" data-th-value="${v.id}" data-th-text="|${v.modelo} - ${v.motor} (${v.color})|" data-th-onclick="'javascript:seleccion()'"/>
                     </select>
+                    
+                    <input type="hidden" id="svehiculos" name="svehiculos"/>
 
+                    <script data-th-inline="javascript">
+                        /*<![CDATA[*/
+                        
+                        function seleccion(){
+                            var lista = document.getElementById("lista");
+                            var vehiculos = "";
+                            for (var i=0; i < lista.options.length ; i++){
+                                if(lista.options[i].selected){
+                                    vehiculos += lista.options[i].value+":";
+                                }
+                            }
+                            vehiculos = vehiculos.substring(0,vehiculos.length-1);
+                            var vehi = document.getElementById("svehiculos");
+                            vehi.value = vehiculos;
+                        }
+                        
+                        /*]]>*/
+                    </script>
+                    
                     <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Guardar"/>
                 </form>
             </div>

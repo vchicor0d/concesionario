@@ -5,8 +5,10 @@
  */
 package com.atsistemas.concesionario.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -31,40 +33,42 @@ import org.hibernate.annotations.LazyCollectionOption;
  * @author vchico
  */
 @Entity
-@Table(schema="Concesionario", name="Pedidos")
+@Table(schema = "Concesionario", name = "Pedidos")
 @Access(AccessType.FIELD)
 public class Pedido implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+
     @ManyToOne
     @JsonIgnoreProperties("pedidos")
     private Cliente cliente;
-    
+
     @ManyToOne
-    @JsonIgnoreProperties("pedidos")
+    @JsonIgnoreProperties({"pedidos","clientes"})
     private Comercial comercial;
-    
+
     @ManyToMany
     @JoinTable(schema = "concesionario", name = "vehiculo_pedido")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Vehiculo> vehiculos;
-    
+
     @Column(nullable = false)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
-    
+
     @Column(nullable = false)
     private EstadoPedido estado;
-    
+
     @OneToOne
     @JsonIgnoreProperties("pedido")
     private Factura factura;
 
-    public Pedido() {
-    }
+    @JsonIgnore //Creamos este campo para recibir los valores por Javascript desde la vista
+    private String svehiculos;
+
+    public Pedido() {}
 
     public Pedido(int id, Cliente cliente, Comercial comercial, List<Vehiculo> vehiculos, Date fecha, EstadoPedido estado, Factura factura) {
         this.id = id;
@@ -108,6 +112,28 @@ public class Pedido implements Serializable {
         this.vehiculos = vehiculos;
     }
 
+    public String getSvehiculos() {
+        return svehiculos;
+    }
+
+    public void setSvehiculos(String svehiculos) {
+        this.svehiculos = svehiculos;
+        if (svehiculos != null && !svehiculos.isEmpty()) {
+            List<Vehiculo> vehiculosAux = new ArrayList<>();
+            String[] vehi = svehiculos.split(":");
+            if (vehi != null && vehi.length > 0) {
+                for (String v : vehi) {
+                    if (v.matches("[0-9]+")){
+                        Vehiculo ve = new Vehiculo();
+                        ve.setId(Integer.parseInt(v));
+                        vehiculosAux.add(ve);
+                    }
+                }
+                this.vehiculos = vehiculosAux;
+            }
+        }
+    }
+
     public Date getFecha() {
         return fecha;
     }
@@ -134,14 +160,9 @@ public class Pedido implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + this.id;
-        hash = 53 * hash + Objects.hashCode(this.cliente);
-        hash = 53 * hash + Objects.hashCode(this.comercial);
-        hash = 53 * hash + Objects.hashCode(this.vehiculos);
-        hash = 53 * hash + Objects.hashCode(this.fecha);
-        hash = 53 * hash + Objects.hashCode(this.estado);
-        hash = 53 * hash + Objects.hashCode(this.factura);
+        int hash = 3;
+        hash = 71 * hash + this.id;
+        hash = 71 * hash + Objects.hashCode(this.fecha);
         return hash;
     }
 
@@ -172,7 +193,7 @@ public class Pedido implements Serializable {
         if (!Objects.equals(this.fecha, other.fecha)) {
             return false;
         }
-        if (!Objects.equals(this.estado, other.estado)) {
+        if (this.estado != other.estado) {
             return false;
         }
         if (!Objects.equals(this.factura, other.factura)) {
@@ -180,7 +201,5 @@ public class Pedido implements Serializable {
         }
         return true;
     }
-    
-    
-    
+
 }

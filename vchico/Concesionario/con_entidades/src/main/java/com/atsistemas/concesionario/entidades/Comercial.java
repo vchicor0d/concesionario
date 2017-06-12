@@ -8,7 +8,6 @@ package com.atsistemas.concesionario.entidades;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
@@ -50,7 +49,7 @@ public class Comercial implements Serializable {
     
     @OneToMany(mappedBy = "comercial")
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JsonIgnoreProperties("comercial")
+    @JsonIgnoreProperties({"comercial","cliente"})
     private List<Pedido> pedidos;
 
     public Comercial() {
@@ -122,13 +121,8 @@ public class Comercial implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + this.id;
-        hash = 67 * hash + Objects.hashCode(this.nombre);
-        hash = 67 * hash + Objects.hashCode(this.correo);
-        hash = 67 * hash + Objects.hashCode(this.telefono);
-        hash = 67 * hash + Objects.hashCode(this.clientes);
-        hash = 67 * hash + Objects.hashCode(this.pedidos);
+        int hash = 5;
+        hash = 23 * hash + this.id;
         return hash;
     }
 
@@ -145,21 +139,6 @@ public class Comercial implements Serializable {
         }
         final Comercial other = (Comercial) obj;
         if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        if (!Objects.equals(this.correo, other.correo)) {
-            return false;
-        }
-        if (!Objects.equals(this.telefono, other.telefono)) {
-            return false;
-        }
-        if (!Objects.equals(this.clientes, other.clientes)) {
-            return false;
-        }
-        if (!Objects.equals(this.pedidos, other.pedidos)) {
             return false;
         }
         return true;

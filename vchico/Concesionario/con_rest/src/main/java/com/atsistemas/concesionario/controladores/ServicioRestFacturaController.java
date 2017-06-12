@@ -44,7 +44,7 @@ public class ServicioRestFacturaController {
         return new ResponseEntity<>(f, estado);
     }
     
-    @Transactional
+    @Transactional //Tengo que devolver void porque me produce una excepción HttpMessageNotReadableException: Could not read JSON document: No _valueDeserializer assigned
     @RequestMapping(path="/generarFactura", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     public /*ResponseEntity<Factura>*/ void generarFactura(@RequestBody Pedido p){
         Factura f = servicio.generarFactura(p);
