@@ -10,34 +10,54 @@ and open the template in the editor.
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/> 
+        <link rel="stylesheet" href="../css/estilos.css"/>
+        <script src="https://www.w3schools.com/lib/w3.js"></script> 
     </head>
     <body>
+        <div id="menu" class="w3-display-topleft w3-sidebar w3-light-grey w3-card-4 w3-animate-left oculto">
+            <div class="w3-bar w3-dark-grey">
+                <span class="w3-bar-item w3-padding-16">Menu</span>
+                <button class="w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
+            </div>
+            <div class="w3-bar-block">
+                <a class="w3-bar-item w3-button" href="../">Inicio</a><br/>
+                <a class="w3-bar-item w3-button" href="../vehiculo/">Vehiculos</a><br/>
+                <a class="w3-bar-item w3-button" href="../comercial/">Comerciales</a><br/>
+                <a class="w3-bar-item w3-button" href="../cliente/">Clientes</a><br/>
+                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" href="#">Pedidos</a><br/>
+                <a class="w3-bar-item w3-button" href="../factura/">Facturas</a><br/>
+            </div>
+        </div>
+        <div class="w3-section w3-row">
+            <span title="Abrir menu" class="w10 w3-quarter w3-cell w3-button w3-transparent w3-xlarge botonMenu material-icons" onclick="w3.show('#menu')">menu</span>
+            <input class="w3-threequarter w3-input w3-round-xlarge w3-cell w3-border" placeholder="Buscar pedidos" type="search" oninput="w3.filterHTML('#lista','.item',this.value)"/>
+        </div>
         <div class = "w3-container w3-section">
-            <table class="w3-table-all w3-hoverable w3-card-4">
+            <table id="lista" class="w3-table-all w3-hoverable w3-card-4">
                 <thead>
                     <tr class="w3-teal">
-                        <th>Cliente</th>
-                        <th>Comercial</th>
-                        <th>Estado</th>
-                        <th>Fecha</th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(1)')">Cliente<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(2)')">Comercial<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(3)')">Estado<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(4)')">Fecha<i class="material-icons">unfold_more</i></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Itera la variable lista, cada objeto se llama ped -->
-                    <tr data-th-each="ped : ${lista}">
+                    <tr class="item" data-th-each="ped : ${lista}">
                         <!-- data-th-text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
                             en data-th-onclick va el texto como cadena entre comillas simples y las variables fuera -->
-                        <td class="w3-button" data-th-text="${ped.cliente.nombre}" data-th-onclick="|javascript:location.href = '../cliente/${ped.cliente?.id}';|"/>
-                        <td class="w3-button" data-th-text="${ped.comercial.nombre}" data-th-onclick="|javascript:location.href = '../comercial/${ped.comercial?.id}';|"/>
-                        <td class="w3-button" data-th-text="${ped.estado}" data-th-onclick="|javascript:location.href = '${ped.id}';|"/>
-                        <td class="w3-button" data-th-text="${ped.fecha}" data-th-onclick="|javascript:location.href = '${ped.id}';|"/>
+                        <td title="Ver Cliente" class="w3-button" data-th-text="${ped.cliente.nombre}" data-th-onclick="|javascript:location.href = '../cliente/${ped.cliente?.id}';|"/>
+                        <td title="Ver Comercial" class="w3-button" data-th-text="${ped.comercial.nombre}" data-th-onclick="|javascript:location.href = '../comercial/${ped.comercial?.id}';|"/>
+                        <td title="Detalle pedido" class="w3-button" data-th-text="${ped.estado}" data-th-onclick="|javascript:location.href = '${ped.id}';|"/>
+                        <td title="Detalle pedido" class="w3-button" data-th-text="${ped.fecha}" data-th-onclick="|javascript:location.href = '${ped.id}';|"/>
                         <td data-th-if="${ped.factura != null}">
-                            <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = '../factura/${ped.factura?.id}';|">description</i>
+                            <i title="Ver Factura" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = '../factura/${ped.factura?.id}';|">description</i>
                         </td>
                         <td data-th-if="${ped.factura == null}">
-                            <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = 'recepcion/${ped.id}';|">note_add</i>
+                            <i title="Generar Factura" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = 'recepcion/${ped.id}';|">note_add</i>
                         </td>
                     </tr>
                 </tbody>
@@ -46,13 +66,13 @@ and open the template in the editor.
         <div class='w3-container w3-section'>
             <div class="w3-display-container w3-section">
                 <button class="w3-btn w3-blue-grey w3-display-left" onclick="javascript:location.href = '../inicio'">Volver</button>
-                <i class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="'document.getElementById(\'registro\').style.display = \'block\''">add</i>
+                <i title="Nuevo Pedido" class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="|w3.show('#registro')|">add</i>
             </div>
         </div>
         <div id="registro" class = "w3-modal">
             <div class="w3-modal-content w3-padding-large w3-card-4">
                 <form class="w3-container" method="POST" data-th-object="${pedido}" action="alta">
-                    <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="'document.getElementById(\'registro\').style.display = \'none\''">clear</i>
+                    <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#registro')|">clear</i>
 
                     <label class="w3-text-teal">Cliente</label>
                     <select class="w3-select" data-th-field="*{cliente.id}">
@@ -65,7 +85,7 @@ and open the template in the editor.
                     </select>
 
                     <label class="w3-text-teal">Vehiculos</label>
-                    <select multiple="multiple" class="w3-select" id="lista">
+                    <select multiple="multiple" class="w3-select" id="listaVehiculos">
                         <option data-th-each="v : ${vehi}" data-th-value="${v.id}" data-th-text="|${v.modelo} - ${v.motor} (${v.color})|" data-th-onclick="'javascript:seleccion()'"/>
                     </select>
                     
@@ -75,7 +95,7 @@ and open the template in the editor.
                         /*<![CDATA[*/
                         
                         function seleccion(){
-                            var lista = document.getElementById("lista");
+                            var lista = document.getElementById("listaVehiculos");
                             var vehiculos = "";
                             for (var i=0; i < lista.options.length ; i++){
                                 if(lista.options[i].selected){

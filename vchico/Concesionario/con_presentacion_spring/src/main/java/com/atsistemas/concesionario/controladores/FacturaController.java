@@ -22,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/factura")
 public class FacturaController {
 
-    @RequestMapping(path="/lista")
+    @RequestMapping(path = {"/","/lista"})
     public String lista(Model modelo){
         RestTemplate restTemplate = new RestTemplate();
         List<Factura> lista = restTemplate.getForObject("http://localhost:8080/con_rest/api/factura/lista", List.class);

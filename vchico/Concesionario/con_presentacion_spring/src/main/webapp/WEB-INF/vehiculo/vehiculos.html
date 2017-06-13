@@ -10,33 +10,53 @@ and open the template in the editor.
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/> 
+        <link rel="stylesheet" href="../css/estilos.css"/>
+        <script src="https://www.w3schools.com/lib/w3.js"></script> 
     </head>
     <body>
+        <div id="menu" class="w3-display-topleft w3-sidebar w3-light-grey w3-card-4 w3-animate-left oculto">
+            <div class="w3-bar w3-dark-grey">
+                <span class="w3-bar-item w3-padding-16">Menu</span>
+                <button class="w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
+            </div>
+            <div class="w3-bar-block">
+                <a class="w3-bar-item w3-button" href="../">Inicio</a><br/>
+                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" href="#">Vehiculos</a><br/>
+                <a class="w3-bar-item w3-button" href="../comercial/">Comerciales</a><br/>
+                <a class="w3-bar-item w3-button" href="../cliente/">Clientes</a><br/>
+                <a class="w3-bar-item w3-button" href="../pedido/">Pedidos</a><br/>
+                <a class="w3-bar-item w3-button" href="../factura/">Facturas</a><br/>
+            </div>
+        </div>
+        <div class="w3-section w3-row">
+            <span title="Abrir menu" class="w10 w3-quarter w3-cell w3-button w3-transparent w3-xlarge botonMenu material-icons" onclick="w3.show('#menu')">menu</span>
+            <input class="w3-threequarter w3-input w3-round-xlarge w3-cell w3-border" placeholder="Buscar vehiculos" type="search" oninput="w3.filterHTML('#lista','.item',this.value)"/>
+        </div>
         <div class = "w3-container w3-section">
-            <table class="w3-table-all w3-hoverable w3-card-4">
+            <table id="lista" class="w3-table-all w3-hoverable w3-card-4">
                 <thead>
                     <tr class="w3-teal">
-                        <th>Modelo</th>
-                        <th>Motor</th>
-                        <th>Color</th>
-                        <th>Precio</th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(1)')">Modelo<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(2)')">Motor<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(3)')">Color<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(4)')">Precio<i class="material-icons">unfold_more</i></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Itera la variable lista, cada objeto se llama ve -->
-                    <tr data-th-each="ve : ${lista}">
+                    <tr class="item" data-th-each="ve : ${lista}">
                         <!-- data-th-text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
                             en data-th-onclick va el texto como cadena entre comillas simples y las variables fuera -->
-                        <td class="w3-button" data-th-text="${ve.modelo}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
-                        <td class="w3-button" data-th-text="${ve.motor}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
-                        <td class="w3-button" data-th-text="${ve.color}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
-                        <td class="w3-button" data-th-text="${ve.precio}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
+                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.modelo}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
+                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.motor}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
+                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.color}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
+                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.precio}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
                         <td>
-                            <i class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="'document.getElementById(\'modifica-'+${ve.id}+'\').style.display = \'block\''">create</i>
+                            <i title="Modificar" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|w3.show('#modifica-${ve.id}')|">create</i>
                             <form class="w3-left" method="post" data-th-object="${vehiculo}" action="baja">
-                                <i class="material-icons w3-text-teal w3-hover-text-red w3-button" onclick="javascript:parentNode.submit()">delete</i>
+                                <i title="Borrar" class="material-icons w3-text-teal w3-hover-text-red w3-button" onclick="javascript:parentNode.submit()">delete</i>
                                 <input type="hidden" name="id" data-th-value="${ve.id}"/>
                             </form>
                         </td>
@@ -47,7 +67,7 @@ and open the template in the editor.
             <div data-th-each="ve : ${lista}" data-th-id="'modifica-'+${ve.id}" class = "w3-modal">
                 <div class="w3-modal-content w3-padding-large w3-card-4">
                     <form class="w3-container" method="POST" data-th-object="${vehiculo}" action="modifica">
-                        <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="'document.getElementById(\'modifica-'+${ve.id}+'\').style.display = \'none\''">clear</i>
+                        <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#modifica-${ve.id}')|">clear</i>
                         <input type="hidden" name="id" data-th-value="${ve.id}"/>
 
                         <label class="w3-text-teal">Modelo</label>
@@ -73,13 +93,13 @@ and open the template in the editor.
         <div class='w3-container w3-section'>
             <div class="w3-display-container w3-section">
                 <button class="w3-btn w3-blue-grey w3-display-left" onclick="javascript:location.href = '../inicio'">Volver</button>
-                <i class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="'document.getElementById(\'registro\').style.display = \'block\''">add</i>
+                <i title="Nuevo Vehiculo" class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="|w3.show('#registro')|">add</i>
             </div>
         </div>
         <div id="registro" class = "w3-modal">
             <div class="w3-modal-content w3-padding-large w3-card-4">
                 <form class="w3-container" method="POST" data-th-object="${vehiculo}" action="alta">
-                    <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="'document.getElementById(\'registro\').style.display = \'none\''">clear</i>
+                    <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#registro')|">clear</i>
 
                     <label class="w3-text-teal">Modelo</label>
                     <input class="w3-input" type="text" data-th-field="*{modelo}"/>
