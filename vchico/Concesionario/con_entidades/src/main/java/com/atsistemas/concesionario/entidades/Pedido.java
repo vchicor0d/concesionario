@@ -42,7 +42,7 @@ public class Pedido implements Serializable {
     private int id;
 
     @ManyToOne
-    @JsonIgnoreProperties("pedidos")
+    @JsonIgnoreProperties({"pedidos","comercial"})
     private Cliente cliente;
 
     @ManyToOne

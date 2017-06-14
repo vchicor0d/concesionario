@@ -8,6 +8,7 @@ package com.atsistemas.concesionario.controladores;
 import com.atsistemas.concesionario.entidades.Factura;
 import com.atsistemas.concesionario.entidades.Pedido;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/factura")
 public class FacturaController {
 
-    @RequestMapping(path = {"/","/lista"})
+    @RequestMapping(path = {"","/","/lista"})
     public String lista(Model modelo){
         RestTemplate restTemplate = new RestTemplate();
         List<Factura> lista = restTemplate.getForObject("http://localhost:8080/con_rest/api/factura/lista", List.class);
@@ -32,13 +33,22 @@ public class FacturaController {
     }
     
     @RequestMapping(path = "/cierre/{id}")
-    public String cierre(@PathVariable int id, Model modelo){
+    public String cierre(@PathVariable int id, Model modelo, HttpServletRequest request){
         RestTemplate restTemplate = new RestTemplate();
         Factura v = restTemplate.getForObject("http://localhost:8080/con_rest/api/factura/cobro/"+id, Factura.class);
         if(v!=null && v.getPedido()!=null){
             restTemplate.getForObject("http://localhost:8080/con_rest/api/pedido/entrega/"+v.getPedido().getId(), Pedido.class);
         }
-        return "redirect:../lista";
+        String referencia = request.getHeader("Referer");
+        if (referencia != null && !referencia.isEmpty()){
+            int indice = referencia.lastIndexOf("/");
+            if (indice != -1){
+                referencia = referencia.substring(indice+1);
+            } else {
+                referencia = "lista";
+            }
+        }
+        return "redirect:../"+referencia; //recojo el mapping que hace la referencia a este para volver al mismo (lista o id), por defecto lista
     }
     
     @RequestMapping(path = "{id}")

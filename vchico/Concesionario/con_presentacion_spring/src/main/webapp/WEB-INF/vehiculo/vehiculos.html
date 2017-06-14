@@ -6,12 +6,12 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Concesionario - Lista Vehículos</title>
+        <title>Concesionario - Lista Vehiculos</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/> 
-        <link rel="stylesheet" href="../css/estilos.css"/>
+        <link rel="stylesheet" data-th-href="@{/css/estilos.css}"/>
         <script src="https://www.w3schools.com/lib/w3.js"></script> 
     </head>
     <body>
@@ -21,12 +21,12 @@ and open the template in the editor.
                 <button class="w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
             </div>
             <div class="w3-bar-block">
-                <a class="w3-bar-item w3-button" href="../">Inicio</a><br/>
-                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" href="#">Vehiculos</a><br/>
-                <a class="w3-bar-item w3-button" href="../comercial/">Comerciales</a><br/>
-                <a class="w3-bar-item w3-button" href="../cliente/">Clientes</a><br/>
-                <a class="w3-bar-item w3-button" href="../pedido/">Pedidos</a><br/>
-                <a class="w3-bar-item w3-button" href="../factura/">Facturas</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/}">Inicio</a><br/>
+                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" data-th-href="|#|">Vehiculos</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/comercial}">Comerciales</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/cliente}">Clientes</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/pedido}">Pedidos</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/factura}">Facturas</a><br/>
             </div>
         </div>
         <div class="w3-section w3-row">
@@ -49,13 +49,13 @@ and open the template in the editor.
                     <tr class="item" data-th-each="ve : ${lista}">
                         <!-- data-th-text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
                             en data-th-onclick va el texto como cadena entre comillas simples y las variables fuera -->
-                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.modelo}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
-                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.motor}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
-                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.color}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
-                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.precio}" data-th-onclick="'javascript:location.href = \'' + ${ve.id} + '\';'"/>
+                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.modelo}" data-th-onclick="|javascript:location.href='@{/vehiculo/{id}(id = ${ve.id})}';|"/>
+                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.motor}" data-th-onclick="|javascript:location.href='@{/vehiculo/{id}(id = ${ve.id})}';|"/>
+                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.color}" data-th-onclick="|javascript:location.href='@{/vehiculo/{id}(id = ${ve.id})}';|"/>
+                        <td title="Detalle vehiculo" class="w3-button" data-th-text="${ve.precio}" data-th-onclick="|javascript:location.href='@{/vehiculo/{id}(id = ${ve.id})}';|"/>
                         <td>
                             <i title="Modificar" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|w3.show('#modifica-${ve.id}')|">create</i>
-                            <form class="w3-left" method="post" data-th-object="${vehiculo}" action="baja">
+                            <form class="w3-left" method="post" data-th-object="${vehiculo}" data-th-action="@{/vehiculo/baja}">
                                 <i title="Borrar" class="material-icons w3-text-teal w3-hover-text-red w3-button" onclick="javascript:parentNode.submit()">delete</i>
                                 <input type="hidden" name="id" data-th-value="${ve.id}"/>
                             </form>
@@ -66,7 +66,7 @@ and open the template in the editor.
             <!-- Ventana modal, por defecto invisible, en data-th-id uso como variable la id del vehículo para formar la id del div-->
             <div data-th-each="ve : ${lista}" data-th-id="'modifica-'+${ve.id}" class = "w3-modal">
                 <div class="w3-modal-content w3-padding-large w3-card-4">
-                    <form class="w3-container" method="POST" data-th-object="${vehiculo}" action="modifica">
+                    <form class="w3-container" method="POST" data-th-object="${vehiculo}" data-th-action="@{/vehiculo/modifica}">
                         <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#modifica-${ve.id}')|">clear</i>
                         <input type="hidden" name="id" data-th-value="${ve.id}"/>
 
@@ -92,13 +92,13 @@ and open the template in the editor.
         </div>
         <div class='w3-container w3-section'>
             <div class="w3-display-container w3-section">
-                <button class="w3-btn w3-blue-grey w3-display-left" onclick="javascript:location.href = '../inicio'">Volver</button>
+                <button class="w3-btn w3-blue-grey w3-display-left" data-th-onclick="|javascript:location.href = '@{/}'|">Volver</button>
                 <i title="Nuevo Vehiculo" class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="|w3.show('#registro')|">add</i>
             </div>
         </div>
         <div id="registro" class = "w3-modal">
             <div class="w3-modal-content w3-padding-large w3-card-4">
-                <form class="w3-container" method="POST" data-th-object="${vehiculo}" action="alta">
+                <form class="w3-container" method="POST" data-th-object="${vehiculo}" data-th-action="@{/vehiculo/alta}">
                     <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#registro')|">clear</i>
 
                     <label class="w3-text-teal">Modelo</label>
@@ -116,7 +116,7 @@ and open the template in the editor.
                     <label class="w3-text-teal">Descripcion</label>
                     <textarea class="w3-input" data-th-field="*{descripcion}"></textarea>
 
-                    <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Añadir"/>
+                    <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Guardar"/>
                 </form>
             </div>
         </div>

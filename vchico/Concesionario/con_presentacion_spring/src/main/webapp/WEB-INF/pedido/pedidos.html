@@ -11,7 +11,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/> 
-        <link rel="stylesheet" href="../css/estilos.css"/>
+        <link rel="stylesheet" data-th-href="@{/css/estilos.css}"/>
         <script src="https://www.w3schools.com/lib/w3.js"></script> 
     </head>
     <body>
@@ -21,12 +21,12 @@ and open the template in the editor.
                 <button class="w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
             </div>
             <div class="w3-bar-block">
-                <a class="w3-bar-item w3-button" href="../">Inicio</a><br/>
-                <a class="w3-bar-item w3-button" href="../vehiculo/">Vehiculos</a><br/>
-                <a class="w3-bar-item w3-button" href="../comercial/">Comerciales</a><br/>
-                <a class="w3-bar-item w3-button" href="../cliente/">Clientes</a><br/>
-                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" href="#">Pedidos</a><br/>
-                <a class="w3-bar-item w3-button" href="../factura/">Facturas</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/}">Inicio</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/vehiculo}">Vehiculos</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/comercial}">Comerciales</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/cliente}">Clientes</a><br/>
+                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" data-th-href="|#|">Pedidos</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/factura}">Facturas</a><br/>
             </div>
         </div>
         <div class="w3-section w3-row">
@@ -49,15 +49,15 @@ and open the template in the editor.
                     <tr class="item" data-th-each="ped : ${lista}">
                         <!-- data-th-text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
                             en data-th-onclick va el texto como cadena entre comillas simples y las variables fuera -->
-                        <td title="Ver Cliente" class="w3-button" data-th-text="${ped.cliente.nombre}" data-th-onclick="|javascript:location.href = '../cliente/${ped.cliente?.id}';|"/>
-                        <td title="Ver Comercial" class="w3-button" data-th-text="${ped.comercial.nombre}" data-th-onclick="|javascript:location.href = '../comercial/${ped.comercial?.id}';|"/>
-                        <td title="Detalle pedido" class="w3-button" data-th-text="${ped.estado}" data-th-onclick="|javascript:location.href = '${ped.id}';|"/>
-                        <td title="Detalle pedido" class="w3-button" data-th-text="${ped.fecha}" data-th-onclick="|javascript:location.href = '${ped.id}';|"/>
+                        <td title="Ver Cliente" class="w3-button" data-th-text="${ped.cliente.nombre}" data-th-onclick="|javascript:location.href = '@{/cliente/{cli}(cli = ${ped.cliente?.id})}';|"/>
+                        <td title="Ver Comercial" class="w3-button" data-th-text="${ped.comercial.nombre}" data-th-onclick="|javascript:location.href = '@{/comercial/{com}(com = ${ped.comercial?.id})}';|"/>
+                        <td title="Detalle pedido" class="w3-button" data-th-text="${ped.estado}" data-th-onclick="|javascript:location.href='@{/pedido/{id}(id = ${ped.id})}';|"/>
+                        <td title="Detalle pedido" class="w3-button" data-th-text="${ped.fecha}" data-th-onclick="|javascript:location.href='@{/pedido/{id}(id = ${ped.id})}';|"/>
                         <td data-th-if="${ped.factura != null}">
-                            <i title="Ver Factura" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = '../factura/${ped.factura?.id}';|">description</i>
+                            <i title="Ver Factura" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = '@{/factura/{fact}(fact = ${ped.factura?.id})}';|">description</i>
                         </td>
                         <td data-th-if="${ped.factura == null}">
-                            <i title="Generar Factura" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = 'recepcion/${ped.id}';|">note_add</i>
+                            <i title="Generar Factura" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = '@{/pedido/recepcion/{id}(id = ${ped.id})}';|">note_add</i>
                         </td>
                     </tr>
                 </tbody>
@@ -65,13 +65,13 @@ and open the template in the editor.
         </div>
         <div class='w3-container w3-section'>
             <div class="w3-display-container w3-section">
-                <button class="w3-btn w3-blue-grey w3-display-left" onclick="javascript:location.href = '../inicio'">Volver</button>
+                <button class="w3-btn w3-blue-grey w3-display-left" data-th-onclick="|javascript:location.href = '@{/}'|">Volver</button>
                 <i title="Nuevo Pedido" class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="|w3.show('#registro')|">add</i>
             </div>
         </div>
         <div id="registro" class = "w3-modal">
             <div class="w3-modal-content w3-padding-large w3-card-4">
-                <form class="w3-container" method="POST" data-th-object="${pedido}" action="alta">
+                <form class="w3-container" method="POST" data-th-object="${pedido}" data-th-action="@{/pedido/alta}">
                     <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#registro')|">clear</i>
 
                     <label class="w3-text-teal">Cliente</label>

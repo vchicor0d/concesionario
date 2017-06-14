@@ -45,7 +45,7 @@ public class Cliente implements Serializable {
 
     @OneToMany(mappedBy = "cliente")
     @LazyCollection(LazyCollectionOption.FALSE) //Clientes es clave ajena de pedidos, se recuperan inmediatamente
-    @JsonIgnoreProperties({"cliente", "comercial", "factura"}) //Ignora el objeto cliente de pedidos en la serialización
+    @JsonIgnoreProperties({"cliente"}) //Ignora el objeto cliente de pedidos en la serialización
     private List<Pedido> pedidos;
 
     @ManyToOne //Comercial es clave ajena de clientes

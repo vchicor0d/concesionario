@@ -11,7 +11,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-        <link rel="stylesheet" href="../css/estilos.css"/>
+        <link rel="stylesheet" data-th-href="@{/css/estilos.css}"/>
         <script src="https://www.w3schools.com/lib/w3.js"></script> 
     </head>
     <body>
@@ -21,12 +21,12 @@ and open the template in the editor.
                 <button class="w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
             </div>
             <div class="w3-bar-block">
-                <a class="w3-bar-item w3-button" href="../">Inicio</a><br/>
-                <a class="w3-bar-item w3-button" href="../vehiculo/">Vehiculos</a><br/>
-                <a class="w3-bar-item w3-button" href="../comercial/">Comerciales</a><br/>
-                <a class="w3-bar-item w3-button" href="../cliente/">Clientes</a><br/>
-                <a class="w3-bar-item w3-button" href="../pedido/">Pedidos</a><br/>
-                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" href="#">Facturas</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/}">Inicio</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/vehiculo}">Vehiculos</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/comercial}">Comerciales</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/cliente}">Clientes</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/pedido}">Pedidos</a><br/>
+                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" data-th-href="|#|">Facturas</a><br/>
             </div>
         </div>
         <div class="w3-section w3-row">
@@ -48,11 +48,11 @@ and open the template in the editor.
                     <tr class="item" data-th-each="fact : ${lista}">
                         <!-- data-th-text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
                             en data-th-onclick va el texto como cadena entre comillas simples y las variables fuera -->
-                        <td title="Detalle Factura" class="w3-button" data-th-text="${fact.estado}" data-th-onclick="|javascript:location.href = '${fact.id}';|"/>
-                        <td title="Detalle Factura" class="w3-button" data-th-text="${fact.fecha}" data-th-onclick="|javascript:location.href = '${fact.id}';|"/>
-                        <td title="Detalle Factura" class="w3-button" data-th-text="${fact.total}" data-th-onclick="|javascript:location.href = '${fact.id}';|"/>
+                        <td title="Detalle Factura" class="w3-button" data-th-text="${fact.estado}" data-th-onclick="|javascript:location.href='@{/factura/{id}(id = ${fact.id})}';|"/>
+                        <td title="Detalle Factura" class="w3-button" data-th-text="${fact.fecha}" data-th-onclick="|javascript:location.href='@{/factura/{id}(id = ${fact.id})}';|"/>
+                        <td title="Detalle Factura" class="w3-button" data-th-text="${fact.total}" data-th-onclick="|javascript:location.href='@{/factura/{id}(id = ${fact.id})}';|"/>
                         <td>
-                            <i title="Cobrar Factura" data-th-if="${fact.estado != 'COBRADA'}" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = 'cierre/${fact.id}';|">euro_symbol</i>
+                            <i title="Cobrar Factura" data-th-if="${fact.estado != 'COBRADA'}" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href='@{/factura/cierre/{id}(id = ${fact.id})}';|">euro_symbol</i>
                         </td>
                     </tr>
                 </tbody>
@@ -60,7 +60,7 @@ and open the template in the editor.
         </div>
         <div class='w3-container w3-section'>
             <div class="w3-display-container w3-section">
-                <button class="w3-btn w3-blue-grey w3-display-left" onclick="javascript:location.href = '../inicio'">Volver</button>
+                <button class="w3-btn w3-blue-grey w3-display-left" data-th-onclick="|javascript:location.href = '@{/}'|">Volver</button>
             </div>
         </div>
     </body>

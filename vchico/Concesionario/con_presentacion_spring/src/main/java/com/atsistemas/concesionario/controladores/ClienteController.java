@@ -42,7 +42,7 @@ public class ClienteController {
         return "redirect:lista";
     }
     
-    @RequestMapping(path = {"/","/lista"})
+    @RequestMapping(path = {"","/","/lista"})
     public String lista(Model modelo){
         RestTemplate restTemplate = new RestTemplate();
         List<Cliente> lista = restTemplate.getForObject("http://localhost:8080/con_rest/api/cliente/lista", List.class);

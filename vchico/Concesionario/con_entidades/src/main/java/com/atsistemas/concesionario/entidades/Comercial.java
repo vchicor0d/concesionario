@@ -44,12 +44,12 @@ public class Comercial implements Serializable {
     
     @OneToMany(mappedBy = "comercial")
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JsonIgnoreProperties("comercial")
+    @JsonIgnoreProperties({"comercial", "pedidos"})
     private List<Cliente> clientes;
     
     @OneToMany(mappedBy = "comercial")
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JsonIgnoreProperties({"comercial","cliente"})
+    @JsonIgnoreProperties({"comercial"})
     private List<Pedido> pedidos;
 
     public Comercial() {

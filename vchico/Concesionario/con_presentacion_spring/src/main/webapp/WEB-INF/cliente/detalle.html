@@ -11,7 +11,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-        <link rel="stylesheet" href="../css/estilos.css"/>
+        <link rel="stylesheet" data-th-href="@{/css/estilos.css}"/>
         <script src="https://www.w3schools.com/lib/w3.js"></script> 
     </head>
     <body>
@@ -21,12 +21,12 @@ and open the template in the editor.
                 <button class="w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
             </div>
             <div class="w3-bar-block">
-                <a class="w3-bar-item w3-button" href="../">Inicio</a><br/>
-                <a class="w3-bar-item w3-button" href="../vehiculo/">Vehiculos</a><br/>
-                <a class="w3-bar-item w3-button" href="../comercial/">Comerciales</a><br/>
-                <a class="w3-bar-item w3-button" href="../cliente/">Clientes</a><br/>
-                <a class="w3-bar-item w3-button" href="../pedido/">Pedidos</a><br/>
-                <a class="w3-bar-item w3-button" href="../factura/">Facturas</a><br/>
+                <a class="w3-bar-item w3-button" href="@{/}">Inicio</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/vehiculo}">Vehiculos</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/comercial}">Comerciales</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/cliente}">Clientes</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/pedido}">Pedidos</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/factura}">Facturas</a><br/>
             </div>
         </div>
         <div class="w3-section w3-row">
@@ -51,9 +51,30 @@ and open the template in the editor.
                     <td data-th-text="${cliente.comercial?.nombre}"/>
                 </tr>
             </table>
-            <div class='w3-container w3-section'>
-                <button class="w3-btn w3-blue-grey" onclick="javascript:window.history.back()">Volver</button>
-            </div>
+        </div>
+        <div class="w3-container w3-section" data-th-if="${cliente.pedidos != null and !cliente.pedidos?.isEmpty()}">
+            <input class="w3-section w3-input w3-round-xlarge w3-border" placeholder="Buscar pedidos" type="search" oninput="w3.filterHTML('#lista','.item',this.value)"/>
+            <table id="lista" class="w3-table-all w3-card-4 w3-hoverable">
+                <thead>
+                    <tr class="w3-teal">
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista', '.item', 'td:nth-child(1)')">Comercial<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista', '.item', 'td:nth-child(2)')">Fecha<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista', '.item', 'td:nth-child(3)')">Estado Pedido<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista', '.item', 'td:nth-child(4)')">Estado Factura<i class="material-icons">unfold_more</i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="item" data-th-each="pe : ${cliente.pedidos}">
+                        <td title="Ver Comercial" class="w3-button" data-th-onclick="|javascript:location.href = '@{/comercial/{id}(id = ${pe.comercial?.id})}'|" data-th-text="${pe.comercial?.nombre}"/>
+                        <td title="Ver Pedido" class="w3-button" data-th-onclick="|javascript:location.href = '@{/pedido/{id}(id = ${pe.id})}'|" data-th-text="${pe.fecha}"/>
+                        <td title="Ver Pedido" class="w3-button" data-th-onclick="|javascript:location.href = '@{/pedido/{id}(id = ${pe.id})}'|" data-th-text="${pe.estado}"/>
+                        <td data-th-title="${pe.factura != null} ? |Ver Factura|" data-th-class="${pe.factura != null} ? |w3-button|" data-th-onclick="${pe.factura != null} ? |javascript:location.href = '@{/factura/{id}(id = ${pe.factura?.id})}'|" data-th-text="${pe.factura?.estado}"/>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class='w3-container w3-section'>
+            <button class="w3-btn w3-blue-grey" onclick="javascript:window.history.back()">Volver</button>
         </div>
     </body>
 </html>

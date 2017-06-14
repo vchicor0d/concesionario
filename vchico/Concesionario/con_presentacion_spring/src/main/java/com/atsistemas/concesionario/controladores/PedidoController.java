@@ -12,6 +12,7 @@ import com.atsistemas.concesionario.entidades.Pedido;
 import com.atsistemas.concesionario.entidades.Vehiculo;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -46,7 +47,7 @@ public class PedidoController {
         return "redirect:lista";
     }
     
-    @RequestMapping(path = {"/","/lista"})
+    @RequestMapping(path = {"","/","/lista"})
     public String lista(Model modelo){
         RestTemplate restTemplate = new RestTemplate();
         List<Comercial> lista = restTemplate.getForObject("http://localhost:8080/con_rest/api/pedido/lista", List.class);
@@ -72,7 +73,7 @@ public class PedidoController {
     }
     
     @RequestMapping("/recepcion/{id}")
-    public String recepcion(@PathVariable int id) {
+    public String recepcion(@PathVariable int id, HttpServletRequest request) {
         RestTemplate restTemplate = new RestTemplate();
         List<HttpMessageConverter<?>> list = new ArrayList<>();
         list.add(new MappingJackson2HttpMessageConverter());
@@ -83,7 +84,16 @@ public class PedidoController {
         if(p!=null){
             restTemplate.postForObject("http://localhost:8080/con_rest/api/factura/generarFactura", p, Factura.class, headers);
         }
-        return "redirect:../lista";
+        String referencia = request.getHeader("Referer");
+        if (referencia != null && !referencia.isEmpty()){
+            int indice = referencia.lastIndexOf("/");
+            if (indice != -1){
+                referencia = referencia.substring(indice+1);
+            } else {
+                referencia = "lista";
+            }
+        }
+        return "redirect:../"+referencia; //recojo el mapping que hace la referencia a este para volver al mismo (lista o id), por defecto lista
     }
 
 }

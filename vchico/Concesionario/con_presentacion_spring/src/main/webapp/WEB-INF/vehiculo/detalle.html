@@ -11,7 +11,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-        <link rel="stylesheet" href="../css/estilos.css"/>
+        <link rel="stylesheet" data-th-href="@{/css/estilos.css}"/>
         <script src="https://www.w3schools.com/lib/w3.js"></script> 
     </head>
     <body>
@@ -21,12 +21,12 @@ and open the template in the editor.
                 <button class="w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
             </div>
             <div class="w3-bar-block">
-                <a class="w3-bar-item w3-button" href="../">Inicio</a><br/>
-                <a class="w3-bar-item w3-button" href="../vehiculo/">Vehiculos</a><br/>
-                <a class="w3-bar-item w3-button" href="../comercial/">Comerciales</a><br/>
-                <a class="w3-bar-item w3-button" href="../cliente/">Clientes</a><br/>
-                <a class="w3-bar-item w3-button" href="../pedido/">Pedidos</a><br/>
-                <a class="w3-bar-item w3-button" href="../factura/">Facturas</a><br/>
+                <a class="w3-bar-item w3-button" href="@{/}">Inicio</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/vehiculo}">Vehiculos</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/comercial}">Comerciales</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/cliente}">Clientes</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/pedido}">Pedidos</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/factura}">Facturas</a><br/>
             </div>
         </div>
         <div class="w3-section w3-row">

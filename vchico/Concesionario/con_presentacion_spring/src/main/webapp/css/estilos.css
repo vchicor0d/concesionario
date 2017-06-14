@@ -4,7 +4,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : 13-jun-2017, 12:11:25
+    Created on : 14-jun-2017, 12:11:25
     Author     : vchico
 */
 
@@ -18,4 +18,8 @@ and open the template in the editor.
 
 .oculto {
     display: none;
+}
+
+footer {
+    height: 55px;
 }
