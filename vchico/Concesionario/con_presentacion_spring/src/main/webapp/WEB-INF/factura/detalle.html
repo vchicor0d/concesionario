@@ -52,8 +52,11 @@ and open the template in the editor.
             <button class="w3-btn w3-blue-grey" data-th-onclick="|javascript:location.href = '@{/pedido/{id}(id = ${factura.pedido?.id})}'|">Ver Pedido</button>
             <button data-th-if="${factura.estado != 'Cobrada'}" class="w3-btn w3-blue-grey" data-th-onclick="|javascript:location.href='@{/factura/cierre/{id}(id = ${factura.id})}';|">Cobrar Factura</button>
         </div>
-        <div class='w3-container w3-section'>
-            <button class="w3-btn w3-blue-grey" onclick="javascript:window.history.back()">Volver</button>
+        <footer></footer>
+        <div class="w3-bottom">
+            <div class='w3-bar w3-padding'>
+                <button class="w3-btn w3-blue-grey" onclick="javascript:window.history.back()">Volver</button>
+            </div>
         </div>
     </body>
 </html>

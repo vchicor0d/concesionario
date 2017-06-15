@@ -5,8 +5,11 @@
  */
 package com.atsistemas.concesionario.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -16,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -51,24 +55,26 @@ public class Comercial implements Serializable {
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnoreProperties({"comercial"})
     private List<Pedido> pedidos;
+    
+    @OneToOne
+    @JsonIgnore
+    private Acceso acceso;
 
     public Comercial() {
+        Rol rol = new Rol("COMERCIAL", null);
+        List<Rol> roles = new ArrayList<>();
+        roles.add(rol);
+        this.acceso = new Acceso(null, null, false, 0, new Timestamp(System.currentTimeMillis()), roles);
     }
 
-    public Comercial(int id, String nombre, String correo, String telefono) {
-        this.id = id;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.telefono = telefono;
-    }
-
-    public Comercial(int id, String nombre, String correo, String telefono, List<Cliente> clientes, List<Pedido> pedidos) {
+    public Comercial(int id, String nombre, String correo, String telefono, List<Cliente> clientes, List<Pedido> pedidos, Acceso acceso) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
         this.clientes = clientes;
         this.pedidos = pedidos;
+        this.acceso = acceso;
     }
 
     public int getId() {
@@ -85,6 +91,7 @@ public class Comercial implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+        this.acceso.setPassword(nombre.toLowerCase());
     }
 
     public String getCorreo() {
@@ -93,6 +100,7 @@ public class Comercial implements Serializable {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+        this.acceso.setUsuario(correo);
     }
 
     public String getTelefono() {
@@ -119,10 +127,18 @@ public class Comercial implements Serializable {
         this.pedidos = pedidos;
     }
 
+    public Acceso getAcceso() {
+        return acceso;
+    }
+
+    public void setAcceso(Acceso acceso) {
+        this.acceso = acceso;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 23 * hash + this.id;
+        hash = 29 * hash + this.id;
         return hash;
     }
 

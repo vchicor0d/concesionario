@@ -71,13 +71,13 @@ and open the template in the editor.
                         <!--<input type="hidden" name="comercial.id" data-th-value="${comercial.id}"/>-->
 
                         <label class="w3-text-teal">Nombre</label>
-                        <input class="w3-input" type="text" name="nombre" data-th-value="${cli.nombre}"/>
+                        <input placeholder="Nombre" class="w3-input" type="text" name="nombre" data-th-value="${cli.nombre}"/>
 
                         <label class="w3-text-teal">Correo</label>
-                        <input class="w3-input" type="email" name="correo" data-th-value="${cli.correo}"/>
+                        <input placeholder="Correo electronico" class="w3-input" type="email" name="correo" data-th-value="${cli.correo}"/>
 
                         <label class="w3-text-teal">Telefono</label>
-                        <input class="w3-input" type="tel" name="telefono" data-th-value="${cli.telefono}"/>
+                        <input placeholder="Telefono" class="w3-input" type="tel" name="telefono" data-th-value="${cli.telefono}"/>
 
                         <label class="w3-text-teal">Comercial</label>
                         <select class="w3-select" name="comercial.id"> 
@@ -101,13 +101,13 @@ and open the template in the editor.
                     <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#registro')|">clear</i>
 
                     <label class="w3-text-teal">Nombre</label>
-                    <input class="w3-input" type="text" data-th-field="*{nombre}"/>
+                    <input placeholder="Nombre" class="w3-input" type="text" data-th-field="*{nombre}"/>
 
                     <label class="w3-text-teal">Correo</label>
-                    <input class="w3-input" type="email" data-th-field="*{correo}"/>
+                    <input placeholder="Correo electronico" class="w3-input" type="email" data-th-field="*{correo}"/>
 
                     <label class="w3-text-teal">Telefono</label>
-                    <input class="w3-input" type="tel" data-th-field="*{telefono}"/>
+                    <input placeholder="Telefono" class="w3-input" type="tel" data-th-field="*{telefono}"/>
 
                     <label class="w3-text-teal">Comercial</label>
                     <select class="w3-select" data-th-field="*{comercial.id}">
@@ -117,6 +117,13 @@ and open the template in the editor.
 
                     <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Guardar"/>
                 </form>
+            </div>
+        </div>
+        <footer></footer>
+        <div class='w3-bottom'>
+            <div class="w3-bar w3-padding">
+                <button class="w3-btn w3-blue-grey w3-display-left" data-th-onclick="|javascript:location.href = '@{/}'|">Volver</button>
+                <i title="Nuevo Cliente" class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="|w3.show('#registro')|">add</i>
             </div>
         </div>
     </body>

@@ -5,6 +5,7 @@
  */
 package com.atsistemas.concesionario.persistencia;
 
+import com.atsistemas.concesionario.entidades.Acceso;
 import com.atsistemas.concesionario.entidades.Comercial;
 import java.util.List;
 
@@ -21,5 +22,6 @@ public interface ComercialDAO {
     Comercial findByTelefono(String telefono);
     List<Comercial> findByNombre(String nombre);
     List<Comercial> findAll();
+    Acceso findAccesoById(int id);
     
 }

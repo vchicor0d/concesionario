@@ -71,27 +71,28 @@ and open the template in the editor.
                         <input type="hidden" name="id" data-th-value="${ve.id}"/>
 
                         <label class="w3-text-teal">Modelo</label>
-                        <input class="w3-input" type="text" name="modelo" data-th-value="${ve.modelo}"/>
+                        <input placeholder="Modelo" class="w3-input" type="text" name="modelo" data-th-value="${ve.modelo}"/>
 
                         <label class="w3-text-teal">Motor</label>
-                        <input class="w3-input" type="text" name="motor" data-th-value="${ve.motor}"/>
+                        <input placeholder="Motor" class="w3-input" type="text" name="motor" data-th-value="${ve.motor}"/>
 
                         <label class="w3-text-teal">Color</label>
-                        <input class="w3-input" type="text" name="color" data-th-value="${ve.color}"/>
+                        <input placeholder="Color" class="w3-input" type="text" name="color" data-th-value="${ve.color}"/>
 
                         <label class="w3-text-teal">Precio</label>
-                        <input class="w3-input" type="number" name="precio" data-th-value="${ve.precio}"/>
+                        <input placeholder="Precio" class="w3-input" type="number" name="precio" data-th-value="${ve.precio}"/>
 
                         <label class="w3-text-teal">Descripcion</label>
-                        <textarea class="w3-input" name="descripcion" data-th-text="${ve.descripcion}"/>
+                        <textarea placeholder="Descripcion" class="w3-input" name="descripcion" data-th-text="${ve.descripcion}"/>
 
                         <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Modificar"/>
                     </form>
                 </div>
             </div>
         </div>
-        <div class='w3-container w3-section'>
-            <div class="w3-display-container w3-section">
+        <footer></footer>
+        <div class='w3-bottom'>
+            <div class="w3-bar w3-padding">
                 <button class="w3-btn w3-blue-grey w3-display-left" data-th-onclick="|javascript:location.href = '@{/}'|">Volver</button>
                 <i title="Nuevo Vehiculo" class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="|w3.show('#registro')|">add</i>
             </div>
@@ -102,19 +103,19 @@ and open the template in the editor.
                     <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#registro')|">clear</i>
 
                     <label class="w3-text-teal">Modelo</label>
-                    <input class="w3-input" type="text" data-th-field="*{modelo}"/>
+                    <input placeholder="Modelo" class="w3-input" type="text" data-th-field="*{modelo}"/>
 
                     <label class="w3-text-teal">Motor</label>
-                    <input class="w3-input" type="text" data-th-field="*{motor}"/>
+                    <input placeholder="Motor" class="w3-input" type="text" data-th-field="*{motor}"/>
 
                     <label class="w3-text-teal">Color</label>
-                    <input class="w3-input" type="text" data-th-field="*{color}"/>
+                    <input placeholder="Color" class="w3-input" type="text" data-th-field="*{color}"/>
 
                     <label class="w3-text-teal">Precio</label>
-                    <input class="w3-input" type="number" data-th-field="*{precio}"/>
+                    <input placeholder="Precio" class="w3-input" type="number" data-th-field="*{precio}"/>
 
                     <label class="w3-text-teal">Descripcion</label>
-                    <textarea class="w3-input" data-th-field="*{descripcion}"></textarea>
+                    <textarea placeholder="Descripcion"class="w3-input" data-th-field="*{descripcion}"></textarea>
 
                     <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Guardar"/>
                 </form>

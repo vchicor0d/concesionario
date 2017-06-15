@@ -69,23 +69,17 @@ and open the template in the editor.
                         <input type="hidden" name="id" data-th-value="${co.id}"/>
 
                         <label class="w3-text-teal">Nombre</label>
-                        <input class="w3-input" type="text" name="nombre" data-th-value="${co.nombre}"/>
+                        <input placeholder="Nombre" class="w3-input" type="text" name="nombre" data-th-value="${co.nombre}"/>
 
                         <label class="w3-text-teal">Correo</label>
-                        <input class="w3-input" type="email" name="correo" data-th-value="${co.correo}"/>
+                        <input placeholder="Correo Electronico" class="w3-input" type="email" name="correo" data-th-value="${co.correo}"/>
 
                         <label class="w3-text-teal">Telefono</label>
-                        <input class="w3-input" type="tel" name="telefono" data-th-value="${co.telefono}"/>
+                        <input placeholder="Telefono" class="w3-input" type="tel" name="telefono" data-th-value="${co.telefono}"/>
 
                         <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Modificar"/>
                     </form>
                 </div>
-            </div>
-        </div>
-        <div class='w3-container w3-section'>
-            <div class="w3-display-container w3-section">
-                <button class="w3-btn w3-blue-grey w3-display-left" data-th-onclick="|javascript:location.href = '@{/}'|">Volver</button>
-                <i title="Nuevo Comercial" class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="|w3.show('#registro')|">add</i>
             </div>
         </div>
         <div id="registro" class = "w3-modal">
@@ -94,16 +88,23 @@ and open the template in the editor.
                     <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#registro')|">clear</i>
 
                     <label class="w3-text-teal">Nombre</label>
-                    <input class="w3-input" type="text" data-th-field="*{nombre}"/>
+                    <input placeholder="Nombre" class="w3-input" type="text" data-th-field="*{nombre}"/>
 
                     <label class="w3-text-teal">Correo</label>
-                    <input class="w3-input" type="email" data-th-field="*{correo}"/>
+                    <input placeholder="Correo electronico" class="w3-input" type="email" data-th-field="*{correo}"/>
 
                     <label class="w3-text-teal">Telefono</label>
-                    <input class="w3-input" type="tel" data-th-field="*{telefono}"/>
+                    <input placeholder="Telefono" class="w3-input" type="tel" data-th-field="*{telefono}"/>
 
                     <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Guardar"/>
                 </form>
+            </div>
+        </div>
+        <footer></footer>
+        <div class='w3-bottom'>
+            <div class="w3-bar w3-padding">
+                <button class="w3-btn w3-blue-grey w3-display-left" data-th-onclick="|javascript:location.href = '@{/}'|">Volver</button>
+                <i title="Nuevo Comercial" class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="|w3.show('#registro')|">add</i>
             </div>
         </div>
     </body>
