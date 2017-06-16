@@ -7,6 +7,7 @@ package com.atsistemas.concesionario.servicio.impl;
 
 import com.atsistemas.concesionario.entidades.Acceso;
 import com.atsistemas.concesionario.persistencia.AccesoDAO;
+import com.atsistemas.concesionario.servicio.ServicioSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
  * @author vchico
  */
 @Service
-public class ServicioSecurity implements UserDetailsService{
+public class ServicioSecurityImpl implements UserDetailsService, ServicioSecurity{
 
     @Autowired
     private AccesoDAO adao;
@@ -31,6 +32,12 @@ public class ServicioSecurity implements UserDetailsService{
         } else {
             return acceso;
         }
+    }
+
+    @Override
+    public Acceso loadUserByUsernameAndPassword(String username, String password) {
+        Acceso acceso = adao.findByUsuarioAndPassword(username, password);
+        return acceso;
     }
     
 }

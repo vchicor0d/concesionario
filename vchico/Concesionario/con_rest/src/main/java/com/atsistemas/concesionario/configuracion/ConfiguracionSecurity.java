@@ -5,7 +5,7 @@
  */
 package com.atsistemas.concesionario.configuracion;
 
-import com.atsistemas.concesionario.servicio.impl.ServicioSecurity;
+import com.atsistemas.concesionario.servicio.impl.ServicioSecurityImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,7 +23,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class ConfiguracionSecurity extends WebSecurityConfigurerAdapter {
     
     @Autowired
-    private ServicioSecurity servicioSecurity;
+    private ServicioSecurityImpl servicioSecurity;
 
     @Override 
     protected void configure(HttpSecurity http) throws Exception {
