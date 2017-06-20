@@ -1,0 +1,18 @@
+## YAML Template.
+---
+server: http://localhost:8080
+app: /con_rest
+cliente: /cliente
+cliente:
+    alta: /cliente/alta
+    baja: /cliente/baja
+    lista: /cliente/lista
+    modificacion: /cliente/modificacion
+    id: /cliente/\{id\}
+comercial: 
+    alta: /comercial/alta
+    baja: /comercial/baja
+    lista: /comercial/lista
+    modificacion: /comercial/modificacion
+    id: /comercial/\{id\}
+    
