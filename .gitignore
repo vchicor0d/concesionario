@@ -1,9 +1,1 @@
-/vchico/Concesionario/con_entidades/target/
-/vchico/Concesionario/con_persistencia/target/
-/vchico/Concesionario/con_interfaces/target/
-/vchico/Concesionario/con_rest/target/
-/vchico/Concesionario/con_servicio/target/
-/vchico/Concesionario/con_rest/nb-configuration.xml
-/vchico/Concesionario/con_presentacion_spring/nb-configuration.xml
-/vchico/Concesionario/con_presentacion_spring/target/
-/vchico/Concesionario/con_security/target/
+*/target/**
