@@ -49,6 +49,7 @@ public class ConfiguracionSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         
+        //Utilizamos el servicio para obtener los usuarios de la base de datos
         auth.userDetailsService(servicioSecurity);
         
     }

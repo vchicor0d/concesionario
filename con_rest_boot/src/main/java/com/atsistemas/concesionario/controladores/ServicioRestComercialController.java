@@ -5,11 +5,9 @@
  */
 package com.atsistemas.concesionario.controladores;
 
-import com.atsistemas.concesionario.entidades.Cliente;
+import com.atsistemas.concesionario.entidades.Comercial;
 import com.atsistemas.concesionario.servicio.Servicio;
-import java.security.Principal;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,54 +24,51 @@ import org.springframework.web.bind.annotation.RestController;
  * @author vchico
  */
 @RestController
-@RequestMapping("/cliente")
-public class ServicioRestClienteController {
+@RequestMapping("/comercial")
+public class ServicioRestComercialController {
     
     Servicio servicio;
 
     @Autowired
-    public ServicioRestClienteController(Servicio servicio) {
+    public ServicioRestComercialController(Servicio servicio) {
         this.servicio = servicio;
     }
     
+    @Transactional
     @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Cliente> altaCliente(@RequestBody Cliente c){
-        if (c.getComercial()!= null && c.getComercial().getId() == -1){
-            c.setComercial(null);
-        }
-        Cliente nuevo = servicio.altaCliente(c);
+    public ResponseEntity<Comercial> altaComercial(@RequestBody Comercial c){
+        Comercial nuevo = servicio.altaComercial(c);
         HttpStatus estado = nuevo!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(nuevo, estado);
     }
     
+    @Transactional
     @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.PUT)
-    public HttpStatus bajaCliente(@RequestBody Cliente c){
-        servicio.bajaCliente(c);
+    public HttpStatus bajaComercial(@RequestBody Comercial c){
+        servicio.bajaComercial(c);
         return HttpStatus.ACCEPTED;
     }
     
     @Transactional
     @RequestMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Cliente> buscarCliente(@PathVariable int id){
-        Cliente c = servicio.buscaCliente(id);
+    public ResponseEntity<Comercial> buscarComercial(@PathVariable int id){
+        Comercial c = servicio.buscaComercial(id);
         HttpStatus estado = c!=null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(c,estado);
     }
     
+    @Transactional
     @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<List<Cliente>> listarClientes(HttpServletRequest request){
-        List<Cliente> clientes = servicio.buscaClientes();
-        Principal userPrincipal = request.getUserPrincipal();
-        HttpStatus estado = clientes != null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(clientes,estado);
+    public ResponseEntity<List<Comercial>> listarComerciales(){
+        List<Comercial> comercials = servicio.buscaComerciales();
+        HttpStatus estado = comercials != null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(comercials,estado);
     }
     
+    @Transactional
     @RequestMapping(path = "/actualizar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Cliente> actualizarCliente(@RequestBody Cliente c){
-        if (c.getComercial()!= null && c.getComercial().getId() == -1){
-            c.setComercial(null);
-        }
-        Cliente act = servicio.actualizaCliente(c);
+    public ResponseEntity<Comercial> actualizarComercial(@RequestBody Comercial c){
+        Comercial act = servicio.actualizaComercial(c);
         HttpStatus estado = act!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(act, estado);
     }

@@ -6,12 +6,13 @@
 package com.atsistemas.concesionario.servicio.security;
 
 import com.atsistemas.concesionario.entidades.security.Acceso;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  *
  * @author vchico
  */
-public interface ServicioSecurity {
+public interface ServicioSecurity extends UserDetailsService {
     
     Acceso loadUserByUsernameAndPassword(String username, String password);
     

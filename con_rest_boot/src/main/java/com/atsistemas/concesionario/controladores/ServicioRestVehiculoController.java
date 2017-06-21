@@ -5,12 +5,9 @@
  */
 package com.atsistemas.concesionario.controladores;
 
-import com.atsistemas.concesionario.entidades.Cliente;
+import com.atsistemas.concesionario.entidades.Vehiculo;
 import com.atsistemas.concesionario.servicio.Servicio;
-import java.security.Principal;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,54 +23,46 @@ import org.springframework.web.bind.annotation.RestController;
  * @author vchico
  */
 @RestController
-@RequestMapping("/cliente")
-public class ServicioRestClienteController {
+@RequestMapping(path="/vehiculo")
+public class ServicioRestVehiculoController {
     
     Servicio servicio;
 
     @Autowired
-    public ServicioRestClienteController(Servicio servicio) {
+    public ServicioRestVehiculoController(Servicio servicio) {
         this.servicio = servicio;
     }
     
     @RequestMapping(path = "/alta", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Cliente> altaCliente(@RequestBody Cliente c){
-        if (c.getComercial()!= null && c.getComercial().getId() == -1){
-            c.setComercial(null);
-        }
-        Cliente nuevo = servicio.altaCliente(c);
+    public ResponseEntity<Vehiculo> altaVehiculo(@RequestBody Vehiculo v){ //Hay que poner RequestBody para identificar que lo que viene es un vehículo
+        Vehiculo nuevo = servicio.altaVehiculo(v);
         HttpStatus estado = nuevo!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(nuevo, estado);
     }
     
     @RequestMapping(path="/baja", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.PUT)
-    public HttpStatus bajaCliente(@RequestBody Cliente c){
-        servicio.bajaCliente(c);
+    public HttpStatus bajaVehiculo(@RequestBody Vehiculo v){
+        servicio.bajaVehiculo(v);
         return HttpStatus.ACCEPTED;
     }
     
-    @Transactional
     @RequestMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Cliente> buscarCliente(@PathVariable int id){
-        Cliente c = servicio.buscaCliente(id);
-        HttpStatus estado = c!=null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(c,estado);
+    public ResponseEntity<Vehiculo> buscarVehiculo(@PathVariable int id){
+        Vehiculo v = servicio.buscaVehiculo(id);
+        HttpStatus estado = v!=null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(v,estado);
     }
     
     @RequestMapping(path="/lista", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<List<Cliente>> listarClientes(HttpServletRequest request){
-        List<Cliente> clientes = servicio.buscaClientes();
-        Principal userPrincipal = request.getUserPrincipal();
+    public ResponseEntity<List<Vehiculo>> listarVehiculos(){
+        List<Vehiculo> clientes = servicio.buscaVehiculos();
         HttpStatus estado = clientes != null?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(clientes,estado);
     }
     
     @RequestMapping(path = "/actualizar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Cliente> actualizarCliente(@RequestBody Cliente c){
-        if (c.getComercial()!= null && c.getComercial().getId() == -1){
-            c.setComercial(null);
-        }
-        Cliente act = servicio.actualizaCliente(c);
+    public ResponseEntity<Vehiculo> actualizarVehiculo(@RequestBody Vehiculo v){
+        Vehiculo act = servicio.actualizaVehiculo(v);
         HttpStatus estado = act!=null?HttpStatus.OK:HttpStatus.NOT_MODIFIED;
         return new ResponseEntity<>(act, estado);
     }

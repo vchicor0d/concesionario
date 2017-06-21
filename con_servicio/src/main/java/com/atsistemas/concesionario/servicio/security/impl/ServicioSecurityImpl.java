@@ -10,7 +10,6 @@ import com.atsistemas.concesionario.persistencia.security.AccesoDAO;
 import com.atsistemas.concesionario.servicio.security.ServicioSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Service;
  * @author vchico
  */
 @Service
-public class ServicioSecurityImpl implements UserDetailsService, ServicioSecurity{
+public class ServicioSecurityImpl implements ServicioSecurity{
 
     @Autowired
     private AccesoDAO adao;
