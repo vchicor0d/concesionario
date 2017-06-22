@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  *
@@ -22,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(schema = "Concesionario", name = "Roles")
 @Access(AccessType.FIELD)
-public class Rol implements Serializable {
+public class Rol implements Serializable, GrantedAuthority {
     
     @Id
     private String rol;
@@ -78,6 +79,11 @@ public class Rol implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String getAuthority() {
+        return this.rol;
     }
     
 }

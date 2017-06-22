@@ -26,7 +26,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -163,14 +162,13 @@ public class Acceso implements Serializable, UserDetails {
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> autorizaciones = new ArrayList<>();
+        List<Rol> autorizaciones = new ArrayList<>();
         LOG.log(Level.INFO, "Recuperando autorizaciones para {0}", this.getUsuario());
-        List<Rol> roles = this.getRoles();
-        if (roles != null && !roles.isEmpty()){
-            for(Rol rol: roles){
-                SimpleGrantedAuthority autorizacion = new SimpleGrantedAuthority(rol.getRol());
-                autorizaciones.add(autorizacion);
-                LOG.log(Level.INFO, "Rol: {0}", rol.getRol());
+        List<Rol> rols = this.getRoles();
+        if (rols != null && !rols.isEmpty()){
+            for(Rol rol: rols){
+                autorizaciones.add(new Rol("ROLE_"+rol.getRol(), null));
+                LOG.log(Level.INFO, "Rol: {0}", rol.getAuthority());
             }
         }
         return autorizaciones;

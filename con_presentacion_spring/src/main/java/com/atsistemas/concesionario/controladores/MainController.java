@@ -6,6 +6,9 @@
 package com.atsistemas.concesionario.controladores;
 
 import com.atsistemas.concesionario.entidades.security.Acceso;
+import java.security.Principal;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
@@ -44,7 +47,7 @@ public class MainController {
     }
     
     @RequestMapping(method = RequestMethod.POST, path = {"/login"})
-    public String login(@ModelAttribute @Valid Acceso acceso, HttpSession session){
+    public String login(@ModelAttribute @Valid Acceso acceso, HttpSession session, HttpServletRequest request) throws ServletException{
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -52,6 +55,8 @@ public class MainController {
         String redirect = "login";
         if (acceso.getUsuario() != null && !acceso.getUsuario().isEmpty() && acceso.getPassword() != null && !acceso.getPassword().isEmpty()){
             login = restTemplate.postForObject("http://localhost:8080/con_rest/api/login", acceso, Acceso.class, headers);
+            request.login(acceso.getUsername(), acceso.getPassword());
+            Principal p = request.getUserPrincipal();
         } else {
             login = null;
         }
