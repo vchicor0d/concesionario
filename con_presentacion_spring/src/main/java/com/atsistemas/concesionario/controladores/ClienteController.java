@@ -6,16 +6,11 @@
 package com.atsistemas.concesionario.controladores;
 
 import com.atsistemas.concesionario.entidades.Cliente;
-import com.atsistemas.concesionario.entidades.security.Acceso;
-import java.util.ArrayList;
+import com.atsistemas.concesionario.tools.SecurityTools;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.client.support.BasicAuthorizationInterceptor;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,13 +29,10 @@ public class ClienteController {
 
     @RequestMapping(path = "/alta", method = RequestMethod.POST)
     public String alta(@ModelAttribute @Valid Cliente cliente, HttpSession session) {
-        //Copiado de StackOverflow, creo los headers para que envíe el vehículo en JSON
         RestTemplate restTemplate = new RestTemplate();
-        List<HttpMessageConverter<?>> list = new ArrayList<>();
-        list.add(new MappingJackson2HttpMessageConverter());
-        restTemplate.setMessageConverters(list);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        SecurityTools.setAuthority(restTemplate, (String)session.getAttribute("login"));
+        SecurityTools.setContentTypeJSON(headers);
         restTemplate.postForObject("http://localhost:8080/con_rest/api/cliente/alta", cliente, Cliente.class, headers);
         return "redirect:lista";
     }
@@ -48,10 +40,7 @@ public class ClienteController {
     @RequestMapping(path = {"","/","/lista"})
     public String lista(Model modelo, HttpSession session){
         RestTemplate restTemplate = new RestTemplate();
-        Acceso login = (Acceso)session.getAttribute("login");
-        if (login != null) { //Si existe el login en sesión, lo utilizamos
-            restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(login.getUsername(), login.getPassword()));
-        }
+        SecurityTools.setAuthority(restTemplate, (String)session.getAttribute("login"));
         List<Cliente> lista = restTemplate.getForObject("http://localhost:8080/con_rest/api/cliente/lista", List.class);
         //Hay que añadir al modelo las variables que usará la plantilla, la lista que itera en la tabla y el vehículo que usará para el alta y la modificación
         modelo.addAttribute("lista", lista);
@@ -62,33 +51,30 @@ public class ClienteController {
     }
     
     @RequestMapping(path="/baja")
-    public String baja(@ModelAttribute @Valid Cliente cliente){
+    public String baja(@ModelAttribute @Valid Cliente cliente, HttpSession session){
         RestTemplate restTemplate = new RestTemplate();
-        List<HttpMessageConverter<?>> list = new ArrayList<>();
-        list.add(new MappingJackson2HttpMessageConverter());
-        restTemplate.setMessageConverters(list);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        SecurityTools.setAuthority(restTemplate, (String)session.getAttribute("login"));
+        SecurityTools.setContentTypeJSON(headers);
         restTemplate.put("http://localhost:8080/con_rest/api/cliente/baja", cliente, headers);
         return "redirect:lista";
     }
     
     @RequestMapping(path = "{id}")
-    public String detalle(@PathVariable int id, Model modelo){
+    public String detalle(@PathVariable int id, Model modelo, HttpSession session){
         RestTemplate restTemplate = new RestTemplate();
+        SecurityTools.setAuthority(restTemplate, (String)session.getAttribute("login"));
         Cliente c = restTemplate.getForObject("http://localhost:8080/con_rest/api/cliente/"+id, Cliente.class);
         modelo.addAttribute("cliente",c);
         return "cliente/detalle";
     }
     
     @RequestMapping(path = "/modifica")
-    public String modifica(@ModelAttribute @Valid Cliente cliente){
+    public String modifica(@ModelAttribute @Valid Cliente cliente, HttpSession session){
         RestTemplate restTemplate = new RestTemplate();
-        List<HttpMessageConverter<?>> list = new ArrayList<>();
-        list.add(new MappingJackson2HttpMessageConverter());
-        restTemplate.setMessageConverters(list);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        SecurityTools.setAuthority(restTemplate, (String)session.getAttribute("login"));
+        SecurityTools.setContentTypeJSON(headers);
         restTemplate.postForObject("http://localhost:8080/con_rest/api/cliente/actualizar", cliente, Cliente.class, headers);
         return "redirect:lista";
     }

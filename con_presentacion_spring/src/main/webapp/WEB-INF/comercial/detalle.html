@@ -21,12 +21,12 @@ and open the template in the editor.
                 <button class="w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
             </div>
             <div class="w3-bar-block">
-                <a class="w3-bar-item w3-button" href="@{/}">Inicio</a><br/>
-                <a class="w3-bar-item w3-button" data-th-href="@{/pedido}">Vehiculos</a><br/>
-                <a class="w3-bar-item w3-button" data-th-href="@{/comercial}">Comerciales</a><br/>
-                <a class="w3-bar-item w3-button" data-th-href="@{/comercial}">Clientes</a><br/>
-                <a class="w3-bar-item w3-button" data-th-href="@{/pedido}">Pedidos</a><br/>
-                <a class="w3-bar-item w3-button" data-th-href="@{/factura}">Facturas</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/}">Inicio</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'ADMINISTRATIVO')}" class="w3-bar-item w3-button" data-th-href="@{/vehiculo}">Vehiculos</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'GERENTE')}" class="w3-bar-item w3-button" data-th-href="@{/comercial}">Comerciales</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'COMERCIAL')}" class="w3-bar-item w3-button" data-th-href="@{/cliente}">Clientes</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'ADMINISTRATIVO')}" class="w3-bar-item w3-button" data-th-href="@{/pedido}">Pedidos</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'COMERCIAL')}" class="w3-bar-item w3-button" data-th-href="@{/factura}">Facturas</a>
             </div>
         </div>
         <div class="w3-section w3-row">
@@ -91,7 +91,7 @@ and open the template in the editor.
         <footer></footer>
         <div class="w3-bottom">
             <div class='w3-bar w3-padding'>
-                <button class="w3-btn w3-blue-grey" onclick="javascript:window.history.back()">Volver</button>
+                <button class="w3-btn w3-blue-grey w3-left" onclick="javascript:window.history.back()">Volver</button>
             </div>
         </div>
     </body>

@@ -30,9 +30,11 @@ public class ConfiguracionSecurity extends WebSecurityConfigurerAdapter {
         
         http    //autorizamos por http básico a cada rol a hacer modificaciones y a todos a consultar
                 .authorizeRequests()
+                    .mvcMatchers(HttpMethod.GET, "/pedido/entrega/*").hasAnyRole("ADMINISTRATIVO", "COMERCIAL")
                     .mvcMatchers(HttpMethod.POST, "/vehiculo/*","/pedido/*").hasRole("ADMINISTRATIVO")
                     .mvcMatchers(HttpMethod.PUT, "/vehiculo/*","/pedido/*").hasRole("ADMINISTRATIVO")
                     .mvcMatchers(HttpMethod.GET, "/vehiculo/*","/pedido/*").authenticated()
+                    .mvcMatchers(HttpMethod.POST, "/factura/generarFactura").hasAnyRole("ADMINISTRATIVO", "COMERCIAL")
                     .mvcMatchers(HttpMethod.POST, "/cliente/*", "/factura/*").hasRole("COMERCIAL")
                     .mvcMatchers(HttpMethod.PUT, "/cliente/*", "/factura/*").hasRole("COMERCIAL")
                     .mvcMatchers(HttpMethod.GET, "/cliente/*", "/factura/*").authenticated()

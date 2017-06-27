@@ -20,6 +20,10 @@ and open the template in the editor.
     display: none;
 }
 
-footer {
+footer, header {
     height: 55px;
+}
+
+.delante {
+    z-index: 2;
 }

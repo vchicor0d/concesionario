@@ -7,8 +7,10 @@ package com.atsistemas.concesionario.controladores;
 
 import com.atsistemas.concesionario.entidades.Factura;
 import com.atsistemas.concesionario.entidades.Pedido;
+import com.atsistemas.concesionario.tools.SecurityTools;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +26,9 @@ import org.springframework.web.client.RestTemplate;
 public class FacturaController {
 
     @RequestMapping(path = {"","/","/lista"})
-    public String lista(Model modelo){
+    public String lista(Model modelo, HttpSession session){
         RestTemplate restTemplate = new RestTemplate();
+        SecurityTools.setAuthority(restTemplate, (String)session.getAttribute("login"));
         List<Factura> lista = restTemplate.getForObject("http://localhost:8080/con_rest/api/factura/lista", List.class);
         modelo.addAttribute("lista", lista);
         modelo.addAttribute("factura", new Factura());
@@ -33,8 +36,9 @@ public class FacturaController {
     }
     
     @RequestMapping(path = "/cierre/{id}")
-    public String cierre(@PathVariable int id, Model modelo, HttpServletRequest request){
+    public String cierre(@PathVariable int id, Model modelo, HttpServletRequest request, HttpSession session){
         RestTemplate restTemplate = new RestTemplate();
+        SecurityTools.setAuthority(restTemplate, (String)session.getAttribute("login"));
         Factura v = restTemplate.getForObject("http://localhost:8080/con_rest/api/factura/cobro/"+id, Factura.class);
         if(v!=null && v.getPedido()!=null){
             restTemplate.getForObject("http://localhost:8080/con_rest/api/pedido/entrega/"+v.getPedido().getId(), Pedido.class);
@@ -52,8 +56,9 @@ public class FacturaController {
     }
     
     @RequestMapping(path = "{id}")
-    public String detalle(@PathVariable int id, Model modelo){
+    public String detalle(@PathVariable int id, Model modelo, HttpSession session){
         RestTemplate restTemplate = new RestTemplate();
+        SecurityTools.setAuthority(restTemplate, (String)session.getAttribute("login"));
         Factura f = restTemplate.getForObject("http://localhost:8080/con_rest/api/factura/"+id, Factura.class);
         modelo.addAttribute("factura",f);
         return "factura/detalle";

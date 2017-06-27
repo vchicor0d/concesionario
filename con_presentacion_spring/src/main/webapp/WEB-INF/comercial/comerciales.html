@@ -21,12 +21,12 @@ and open the template in the editor.
                 <button class="w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
             </div>
             <div class="w3-bar-block">
-                <a class="w3-bar-item w3-button" data-th-href="@{/}">Inicio</a><br/>
-                <a class="w3-bar-item w3-button" data-th-href="@{/vehiculo}">Vehiculos</a><br/>
-                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" data-th-href="|#|">Comerciales</a><br/>
-                <a class="w3-bar-item w3-button" data-th-href="@{/cliente}">Clientes</a><br/>
-                <a class="w3-bar-item w3-button" data-th-href="@{/pedido}">Pedidos</a><br/>
-                <a class="w3-bar-item w3-button" data-th-href="@{/factura}">Facturas</a><br/>
+                <a class="w3-bar-item w3-button" data-th-href="@{/}">Inicio</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'ADMINISTRATIVO')}" class="w3-bar-item w3-button" data-th-href="@{/vehiculo}">Vehiculos</a>
+                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" data-th-href="|#|">Comerciales</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'COMERCIAL')}" class="w3-bar-item w3-button" data-th-href="@{/cliente}">Clientes</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'ADMINISTRATIVO')}" class="w3-bar-item w3-button" data-th-href="@{/pedido}">Pedidos</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'COMERCIAL')}" class="w3-bar-item w3-button" data-th-href="@{/factura}">Facturas</a>
             </div>
         </div>
         <div class="w3-section w3-row">
@@ -52,8 +52,8 @@ and open the template in the editor.
                         <td title="Detalle Comercial" class="w3-button" data-th-text="${co.correo}" data-th-onclick="|javascript:location.href='@{/comercial/{id}(id = ${co.id})}';|"/>
                         <td title="Detalle Comercial" class="w3-button" data-th-text="${co.telefono}" data-th-onclick="|javascript:location.href='@{/comercial/{id}(id = ${co.id})}';|"/>
                         <td>
-                            <i title="Modificar" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|w3.show('#modifica-${co.id}')|">create</i>
-                            <form class="w3-left" method="post" data-th-object="${vehiculo}" data-th-action="@{/comercial/baja}">
+                            <i data-th-if="${#lists.contains(session.authorities, 'GERENTE')}" title="Modificar" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|w3.show('#modifica-${co.id}')|">create</i>
+                            <form data-th-if="${#lists.contains(session.authorities, 'GERENTE')}" class="w3-left" method="post" data-th-object="${vehiculo}" data-th-action="@{/comercial/baja}">
                                 <i title="Borrar" class="material-icons w3-text-teal w3-hover-text-red w3-button" onclick="javascript:parentNode.submit()">delete</i>
                                 <input type="hidden" name="id" data-th-value="${co.id}"/>
                             </form>
@@ -62,7 +62,7 @@ and open the template in the editor.
                 </tbody>
             </table>
             <!-- Ventana modal, por defecto invisible, en data-th-id uso como variable la id del vehículo para formar la id del div-->
-            <div data-th-each="co : ${lista}" data-th-id="'modifica-'+${co.id}" class = "w3-modal">
+            <div data-th-if="${#lists.contains(session.authorities, 'GERENTE')}" data-th-each="co : ${lista}" data-th-id="'modifica-'+${co.id}" class = "w3-modal">
                 <div class="w3-modal-content w3-padding-large w3-card-4">
                     <form class="w3-container" method="POST" data-th-object="${comercial}" data-th-action="@{/comercial/modifica}">
                         <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#modifica-${co.id}')|">clear</i>
@@ -82,7 +82,7 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-        <div id="registro" class = "w3-modal">
+        <div data-th-if="${#lists.contains(session.authorities, 'GERENTE')}" id="registro" class = "w3-modal">
             <div class="w3-modal-content w3-padding-large w3-card-4">
                 <form class="w3-container" method="POST" data-th-object="${comercial}" data-th-action="@{/comercial/alta}">
                     <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#registro')|">clear</i>
@@ -103,8 +103,8 @@ and open the template in the editor.
         <footer></footer>
         <div class='w3-bottom'>
             <div class="w3-bar w3-padding">
-                <button class="w3-btn w3-blue-grey w3-display-left" data-th-onclick="|javascript:location.href = '@{/}'|">Volver</button>
-                <i title="Nuevo Comercial" class="material-icons w3-btn w3-circle w3-blue-grey w3-display-right" data-th-onclick="|w3.show('#registro')|">add</i>
+                <button class="w3-btn w3-blue-grey w3-left" data-th-onclick="|javascript:location.href = '@{/}'|">Volver</button>
+                <button data-th-if="${#lists.contains(session.authorities, 'GERENTE')}" title="Nuevo Comercial" class="material-icons w3-btn w3-circle w3-blue-grey w3-right" data-th-onclick="|w3.show('#registro')|">add</button>
             </div>
         </div>
     </body>

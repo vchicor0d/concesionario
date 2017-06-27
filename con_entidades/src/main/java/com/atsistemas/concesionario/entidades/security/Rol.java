@@ -85,5 +85,10 @@ public class Rol implements Serializable, GrantedAuthority {
     public String getAuthority() {
         return this.rol;
     }
+
+    @Override
+    public String toString() {
+        return rol;
+    }
     
 }

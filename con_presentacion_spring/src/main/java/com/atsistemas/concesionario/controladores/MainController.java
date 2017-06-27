@@ -6,14 +6,15 @@
 package com.atsistemas.concesionario.controladores;
 
 import com.atsistemas.concesionario.entidades.security.Acceso;
-import java.security.Principal;
+import com.atsistemas.concesionario.entidades.security.Rol;
+import com.atsistemas.concesionario.tools.SecurityTools;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Base64Utils;
@@ -31,7 +32,7 @@ public class MainController {
     
     @RequestMapping("/")
     public String entrada(HttpSession session){
-        Acceso login = (Acceso)session.getAttribute("login");
+        String login = (String)session.getAttribute("login");
         return login==null?"redirect:login":"redirect:inicio";
     }
     
@@ -50,23 +51,34 @@ public class MainController {
     public String login(@ModelAttribute @Valid Acceso acceso, HttpSession session, HttpServletRequest request) throws ServletException{
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        UserDetails login;
+        SecurityTools.setContentTypeJSON(headers);
+        Acceso auth;
         String redirect = "login";
         if (acceso.getUsuario() != null && !acceso.getUsuario().isEmpty() && acceso.getPassword() != null && !acceso.getPassword().isEmpty()){
-            login = restTemplate.postForObject("http://localhost:8080/con_rest/api/login", acceso, Acceso.class, headers);
-            request.login(acceso.getUsername(), acceso.getPassword());
-            Principal p = request.getUserPrincipal();
-        } else {
-            login = null;
+            auth = restTemplate.postForObject("http://localhost:8080/con_rest/api/login", acceso, Acceso.class, headers);
+        } 
+        else {
+            auth = null;
         }
-        if (login!=null){
-            String userPass = login.getUsername()+":"+login.getPassword();
+        if (auth!=null){
+            String userPass = auth.getUsername()+":"+auth.getPassword();
             userPass = Base64Utils.encodeToString(userPass.getBytes());
             session.setAttribute("login", userPass);
+            List<String> roles = new ArrayList<>();
+            for (Rol rol : auth.getRoles()){
+                roles.add(rol.toString());
+            }
+            session.setAttribute("authorities", roles);
             redirect = "inicio";
         }
         return "redirect:"+redirect;
+    }
+    
+    @RequestMapping(path = {"/logout"})
+    public String logout(HttpSession session){
+        session.removeAttribute("login");
+        session.removeAttribute("authorities");
+        return "redirect:login";
     }
     
 }

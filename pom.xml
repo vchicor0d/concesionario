@@ -13,6 +13,7 @@
         <module>con_servicio</module>
     <module>con_presentacion_spring</module>
         <module>con_rest_boot</module>
+        <module>con_tools</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
