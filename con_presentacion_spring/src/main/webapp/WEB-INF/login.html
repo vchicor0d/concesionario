@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Concesionario - Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
+        <link rel="stylesheet" data-th-href="@{/css/estilos.css}"/>
+    </head>
+    <body>
+        <div class="w3-container">
+            <div class="w3-display-middle w3-card-4 w3-half w3-padding">
+                <form  method="POST" data-th-object="${acceso}" data-th-action="@{/login}">
+                    <label class="w3-text-teal">Usuario</label>
+                    <input placeholder="Usuario" class="w3-input" data-th-field="*{usuario}"/>
+                    
+                    <label class="w3-text-teal">Contraseña</label>
+                    <input placeholder="Contraseña" class="w3-input" data-th-field="*{password}" type="password"/>
+                    
+                    <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Entrar"/>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

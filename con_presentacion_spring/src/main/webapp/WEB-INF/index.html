@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Concesionario - Inicio</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
+        <link rel="stylesheet" href="css/estilos.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+        <script src="https://www.w3schools.com/lib/w3.js"></script> 
+    </head>
+    <body>
+        <div id="menu" class="w3-display-topleft w3-sidebar w3-light-grey w3-card-4 w3-animate-left delante">
+            <div class="w3-bar w3-dark-grey">
+                <span class="w3-bar-item w3-padding-16">Menu</span>
+                <button class="w3-hover-none w3-hover-text-red w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
+            </div>
+            <div class="w3-bar-block">
+                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" data-th-href="|#|">Inicio</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'ADMINISTRATIVO')}" class="w3-bar-item w3-button" data-th-href="@{/vehiculo}">Vehiculos</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'GERENTE')}" class="w3-bar-item w3-button" data-th-href="@{/comercial}">Comerciales</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'COMERCIAL')}" class="w3-bar-item w3-button" data-th-href="@{/cliente}">Clientes</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'ADMINISTRATIVO')}" class="w3-bar-item w3-button" data-th-href="@{/pedido}">Pedidos</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'COMERCIAL')}" class="w3-bar-item w3-button" data-th-href="@{/factura}">Facturas</a>
+            </div>
+        </div>
+        <header>
+            <div class="w3-top w3-bar w3-padding w3-light-grey w3-card-4">
+                <span title="Abrir menu" class="w3-hover-none w3-hover-text-green w3-left w3-cell w3-button w3-transparent w3-xlarge botonMenu material-icons" onclick="w3.show('#menu')">menu</span>
+                <span title="Cerrar sesion" class="w3-hover-none w3-hover-text-red w3-right w3-cell w3-button w3-transparent w3-xlarge material-icons" data-th-onclick="|javascript:location.href='@{/logout}';|">power_settings_new</span>
+            </div>
+        </header>
+    </body>
+</html>

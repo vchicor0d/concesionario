@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Concesionario - Lista Pedidos</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/> 
+        <link rel="stylesheet" data-th-href="@{/css/estilos.css}"/>
+        <script src="https://www.w3schools.com/lib/w3.js"></script> 
+    </head>
+    <body>
+        <div id="menu" class="w3-display-topleft w3-sidebar w3-light-grey w3-card-4 w3-animate-left oculto delante">
+            <div class="w3-bar w3-dark-grey">
+                <span class="w3-bar-item w3-padding-16">Menu</span>
+                <button class="w3-hover-none w3-hover-text-red w3-bar-item w3-button w3-right w3-padding-16 material-icons" onclick="w3.hide('#menu')" title="Cerrar menu">close</button>
+            </div>
+            <div class="w3-bar-block">
+                <a class="w3-bar-item w3-button" data-th-href="@{/}">Inicio</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'ADMINISTRATIVO')}" class="w3-bar-item w3-button" data-th-href="@{/vehiculo}">Vehiculos</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'GERENTE')}" class="w3-bar-item w3-button" data-th-href="@{/comercial}">Comerciales</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'COMERCIAL')}" class="w3-bar-item w3-button" data-th-href="@{/cliente}">Clientes</a>
+                <a class="w3-bar-item w3-button w3-teal w3-hover-teal" data-th-href="|#|">Pedidos</a>
+                <a data-th-if="${#lists.contains(session.authorities, 'COMERCIAL')}" class="w3-bar-item w3-button" data-th-href="@{/factura}">Facturas</a>
+            </div>
+        </div>
+        <header>
+            <div class="w3-top w3-bar w3-padding w3-light-grey w3-card-4">
+                <span title="Abrir menu" class="w3-hover-none w3-hover-text-green w3-left w3-cell w3-button w3-transparent w3-xlarge botonMenu material-icons" onclick="w3.show('#menu')">menu</span>
+                <input class="w3-threequarter w3-display-middle w3-input w3-round-xlarge w3-cell w3-border" placeholder="Buscar pedidos" type="search" oninput="w3.filterHTML('#lista','.item',this.value)"/>    
+                <span title="Cerrar sesion" class="w3-hover-none w3-hover-text-red w3-right w3-cell w3-button w3-transparent w3-xlarge material-icons" data-th-onclick="|javascript:location.href='@{/logout}';|">power_settings_new</span>
+            </div>
+        </header>
+        <div class = "w3-container w3-section">
+            <table id="lista" class="w3-table-all w3-hoverable w3-card-4">
+                <thead>
+                    <tr class="w3-teal">
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(1)')">Cliente<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(2)')">Comercial<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(3)')">Estado<i class="material-icons">unfold_more</i></th>
+                        <th title="Ordenar" class="w3-button w3-hover-teal" onclick="w3.sortHTML('#lista','.item','td:nth-child(4)')">Fecha<i class="material-icons">unfold_more</i></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Itera la variable lista, cada objeto se llama ped -->
+                    <tr class="item" data-th-each="ped : ${lista}">
+                        <!-- data-th-text pone dentro de la etiqueta el valor que tenga la variable, sobreescribe lo que hubiera
+                            en data-th-onclick va el texto como cadena entre comillas simples y las variables fuera -->
+                        <td title="Ver Cliente" class="w3-button" data-th-text="${ped.cliente.nombre}" data-th-onclick="|javascript:location.href = '@{/cliente/{cli}(cli = ${ped.cliente?.id})}';|"/>
+                        <td title="Ver Comercial" class="w3-button" data-th-text="${ped.comercial.nombre}" data-th-onclick="|javascript:location.href = '@{/comercial/{com}(com = ${ped.comercial?.id})}';|"/>
+                        <td title="Detalle pedido" class="w3-button" data-th-text="${ped.estado}" data-th-onclick="|javascript:location.href='@{/pedido/{id}(id = ${ped.id})}';|"/>
+                        <td title="Detalle pedido" class="w3-button" data-th-text="${ped.fecha}" data-th-onclick="|javascript:location.href='@{/pedido/{id}(id = ${ped.id})}';|"/>
+                        <td data-th-if="${ped.factura != null}">
+                            <i title="Ver Factura" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = '@{/factura/{fact}(fact = ${ped.factura?.id})}';|">description</i>
+                        </td>
+                        <td data-th-if="${ped.factura == null and #lists.contains(session.authorities, 'ADMINISTRATIVO')}">
+                            <i title="Generar Factura" class="material-icons w3-text-teal w3-left w3-margin-right w3-button" data-th-onclick="|javascript:location.href = '@{/pedido/recepcion/{id}(id = ${ped.id})}';|">note_add</i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="registro" class = "w3-modal">
+            <div class="w3-modal-content w3-padding-large w3-card-4">
+                <form class="w3-container" method="POST" data-th-object="${pedido}" data-th-action="@{/pedido/alta}">
+                    <i class="material-icons w3-text-red w3-display-topright w3-button" data-th-onclick="|w3.hide('#registro')|">clear</i>
+
+                    <label class="w3-text-teal">Cliente</label>
+                    <select class="w3-select" data-th-field="*{cliente.id}">
+                        <option data-th-each="c : ${clientes}" data-th-value="${c.id}" data-th-text="${c.nombre}"/>
+                    </select>
+
+                    <label class="w3-text-teal">Comercial</label>
+                    <select class="w3-select" data-th-field="*{comercial.id}">
+                        <option data-th-each="c : ${comerciales}" data-th-value="${c.id}" data-th-text="${c.nombre}"/>
+                    </select>
+
+                    <label class="w3-text-teal">Vehiculos</label>
+                    <select multiple="multiple" class="w3-select" id="listaVehiculos">
+                        <option data-th-each="v : ${vehi}" data-th-value="${v.id}" data-th-text="|${v.modelo} - ${v.motor} (${v.color})|" data-th-onclick="'javascript:seleccion()'"/>
+                    </select>
+                    
+                    <input type="hidden" id="svehiculos" name="svehiculos"/>
+
+                    <script data-th-inline="javascript">
+                        /*<![CDATA[*/
+                        
+                        function seleccion(){
+                            var lista = document.getElementById("listaVehiculos");
+                            var vehiculos = "";
+                            for (var i=0; i < lista.options.length ; i++){
+                                if(lista.options[i].selected){
+                                    vehiculos += lista.options[i].value+":";
+                                }
+                            }
+                            vehiculos = vehiculos.substring(0,vehiculos.length-1);
+                            var vehi = document.getElementById("svehiculos");
+                            vehi.value = vehiculos;
+                        }
+                        
+                        /*]]>*/
+                    </script>
+                    
+                    <input type="submit" class="w3-btn w3-blue-grey w3-margin-top" value="Guardar"/>
+                </form>
+            </div>
+        </div>
+        <footer>
+            <div class="w3-bottom w3-light-grey w3-card-4 w3-bar w3-padding">
+                <button class="w3-btn w3-blue-grey w3-left" onclick="javascript:window.history.back()">Volver</button>
+                <button data-th-if="${#lists.contains(session.authorities, 'ADMINISTRATIVO')}" title="Nuevo pedido" class="material-icons w3-btn w3-circle w3-blue-grey w3-right" data-th-onclick="|w3.show('#registro')|">add</button>
+            </div>
+        </footer>
+    </body>
+</html>
